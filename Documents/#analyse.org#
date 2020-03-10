@@ -1,0 +1,14 @@
+#+TITLE: Kravspecifikation
+* Virksomheden
+| *Navn* | TrainModels    |
+| Chef   | Anders Bentsen |
+|        |                |
+** Afdelinger
+| Navn  | Chef | Ansvar |
+| Admin | Malte Petersen |        |
+* Opgavebeskrivelse
+Fokus: Køb og salg system og bedre styring af virksomheden
+    + Temporal databse
+      + Hvis nogen skifter info så skal de gamle info stadig være tilgængelige
+    + 
+* Struktur i virksomheden
