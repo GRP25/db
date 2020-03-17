@@ -1,18 +1,29 @@
 @startuml
 object Employee {
-
+    # id
+    + fornavn
+    + efternavn
+    + addresse
+    + postnummer
+    + by
+    + timeløn
+    - stilling
+    - afdeling
+    + start_dato
+    # slut_dato
 }
 object Produkt
 object Customer
 object Supplier
 object Timesedler {
+    # eployee_id
     + fornavn
-    efternavn
-    arbejdsdato
-    arbejdstimer
-    status
-    statusfornavn
-    statusefternavn
-    bemærkning
+    + efternavn
+    # arbejdsdato
+    - arbejdstimer
+    - status
+    + statusfornavn
+    + statusefternavn
+    - bemærkning
 }
 @enduml

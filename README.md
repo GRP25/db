@@ -1,11 +1,8 @@
 # Brainstorm
 
-<<<<<<< HEAD
-
 ## noter:
 så få tabeller som muligt
 
-=======
 Page 4/21 
 NewEmployee (EmployeeID, FuldeName, ContactDetails, SalaryDetails, Title, Department, StartDate) 
 
@@ -26,4 +23,3 @@ Page 7/21
 Supplier(SupplierID, Name, ContactPerson, ContactInformation)
 PurchaseOrder(OrderID, SupplierID, OrderDate, DateOfReceipt, DateOfPayment)
 PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is number of products and Price is product’s purchase Price.
->>>>>>> da140ab4ed382f73dd8f2b3be7eead4c5ba312c8
