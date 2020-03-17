@@ -23,3 +23,9 @@ Page 7/21
 Supplier(SupplierID, Name, ContactPerson, ContactInformation)
 PurchaseOrder(OrderID, SupplierID, OrderDate, DateOfReceipt, DateOfPayment)
 PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is number of products and Price is product’s purchase Price.
+
+## Planer for imorgen (18 march 2020)
+* Finish Requrements for application
+* Finish Database Scheme
+* List over different users and there access
+* Usecases in the database
