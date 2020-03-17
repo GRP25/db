@@ -1,0 +1,18 @@
+@startuml
+object Employee {
+
+}
+object Produkt
+object Customer
+object Supplier
+object Timesedler {
+    + fornavn
+    efternavn
+    arbejdsdato
+    arbejdstimer
+    status
+    statusfornavn
+    statusefternavn
+    bemærkning
+}
+@enduml
