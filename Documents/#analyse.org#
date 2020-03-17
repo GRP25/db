@@ -7,7 +7,10 @@
 | Navn  | Chef | Ansvar |
 | Admin | Malte Petersen |        |
 * Opgavebeskrivelse
-Fokus: Køb og salg system og bedre styring af virksomheden
+** Krav til funtionalitet
+    + Køb og salg system
+    + Bedre styring af virksomheden
+** Krav til databsen
     + Temporal databse
       + Hvis nogen skifter info så skal de gamle info stadig være tilgængelige
     + 

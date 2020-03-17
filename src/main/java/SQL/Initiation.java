@@ -9,11 +9,15 @@ import static SQL.DatabaseCtrl.*;
 public class Initiation {
     public void createNewUserTable() {
         String sql = "CREATE TABLE IF NOT EXISTS user (\n" +
-                "   user_id integer PRIMARY KEY AUTOINCREMENT,\n" +
-                "   user_name text NOT NULL, \n" +
-                "   user_init text NOT NULL, \n" +
-                "   user_cpr integer NOT NULL UNIQUE, \n" +
-                "   user_password text NOT NULL \n" +
+                "   employee_id text PRIMARY KEY, \n" +
+                "   first_name text NOT NULL, \n" +
+                "   last_name text NOT NULL, \n" +
+                "   date text NOT NULL, \n" +
+                "   working_hours integer NOT NULL, \n" +
+                "   status text NOT NULL, \n" +
+                "   status_first_name text NOT NULL, \n" +
+                "   status_last_name text NOT NULL, \n" +
+                "   comment text NOT NULL \n" +
                 ");";
         try (
                 Connection conn = connect();
