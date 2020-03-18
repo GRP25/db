@@ -37,7 +37,7 @@ PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is num
 
 # Krav til medarbejdere
 * Direktør og nærmeste medarbejdere
-*    Oprettelse og administration af medarbejdere og løn
+  * Oprettelse og administration af medarbejdere og løn
 *    Månedlig lønudbetaling
 *    Udarbejdelse af kontorhåndbogen
 *    oprettelse og administration af produktype og produkter
