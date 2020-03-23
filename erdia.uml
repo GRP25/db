@@ -1,7 +1,12 @@
 @startuml
+
 skinparam linetype ortho
-database "Vores Database" {
-entity "Employee" as e1 {
+skinparam objectbackgroundcolor lavender
+skinparam objectbordercolor lavender
+skinparam shadowing False
+
+database "Our Database" {
+entity "Employee" as emp {
     * id <<generated>>
     --
     fornavn
@@ -15,7 +20,7 @@ entity "Employee" as e1 {
     start_dato
     slut_dato
 }
-entity "Produkt" as p1{
+entity "Product" as pro {
     * product_id <<generated>>
     --
     details
@@ -28,73 +33,95 @@ entity "Produkt" as p1{
     transport_sc
     tranport_cc
 }
-entity "Customer" as c1 {
-    * customer_id
+entity "Customer" as cus {
+    * customer_id <<generated>>
     --
     full_name
     contact_information
+    credit_limit
 }
-entity "SalesOrder" as s2 {
-    * order_id
-    --
-    shipping_date
-    billing_data
-    payment_date
-}
-entity "SalesOrderLine" as s3 {
-    * order_line_id
-    * product_id
-    --
-    order_line
-    amount 
-    ' Amount is number of products
-    price 
-    ' Price is products selling price
-}
-entity "PurchaseOrder" as p2{
-    * order_id
-    * supplier_id
-    --
-    order_data
-    date_of_receipt
-    date_of_payment
-}
-entity "PurchaseOrderLine" as p3{
-    * order_id
-    * product_id
-    --
-    order_line
-    amount 
-    ' Amount is number of products
-    price 
-    ' Price is products selling price
-}
-entity "Supplier" as s1{
+'entity "SalesOrder" as sor {
+'    * order_id <<generated>>
+'    --
+'    shipping_date
+'    billing_data
+'    payment_date
+'}
+'entity "SalesOrderLine" as sol {
+'    * order_line_id <<generated>>
+'    * product_id
+'    --
+'    order_line
+'    amount 
+'    ' Amount is number of products
+'    price 
+'    ' Price is products selling price
+'}
+'entity "PurchaseOrder" as por {
+'    * order_id <<generated>>
+'    * supplier_id
+'    --
+'    order_data
+'    date_of_receipt
+'    date_of_payment
+'}
+'entity "PurchaseOrderLine" as pol {
+'    * order_id
+'    * product_id
+'    --
+'    order_line
+'    amount 
+'    ' Amount is number of products
+'    price 
+'    ' Price is products selling price
+'}
+entity "Supplier" as sup {
     * supplier_id
     --
     name
     contact_person
     contact_information
 }
-entity "Timesedler" as t1 {
+entity "Timesedler" as tse {
     * eployee_id
     * arbejdsdato
+    * status
     --
     arbejdstimer
-    status
     staus - eployee_id
     bemærkning
 }
+
+object "contact_person" as cpe
+object "buys" as buy
+object "sells" as sel
+object "creates" as cre
+object "confirms" as con
+
 }
-database "MySQL" {
-entity "User" as u1{
-    * id
-}
-}
+'database "MySQL" {
+'entity "User" as usr {
+'    * id
+'}
+'}
 
 'Relationships
 
-u1 -- e1
+emp -r- cpe
+cpe -r- sup
+cpe -r- sup
 
+emp -u- cre
+emp -u- con
 
+con -u- tse
+cre -u- tse
+
+sup -r- sel
+sel -u- pro
+sel -u- pro
+
+cus -r- buy
+buy -d- pro
+buy -d- pro
 @enduml
