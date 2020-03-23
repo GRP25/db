@@ -1,7 +1,15 @@
+## Planer for imorgen (18 march 2020)
+* Finish Requrements for application
+* Finish Database Scheme
+* List over different users and there access
+* Usecases in the database
+
 # Brainstorm
 
 ## noter:
 så få tabeller som muligt
+
+2. DB tabel skemaer og brugerprofiler
 
 Page 4/21 
 NewEmployee (EmployeeID, FuldeName, ContactDetails, SalaryDetails, Title, Department, StartDate) 
@@ -23,3 +31,30 @@ Page 7/21
 Supplier(SupplierID, Name, ContactPerson, ContactInformation)
 PurchaseOrder(OrderID, SupplierID, OrderDate, DateOfReceipt, DateOfPayment)
 PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is number of products and Price is product’s purchase Price.
+
+
+
+
+
+
+# Krav til medarbejdere
+* Direktør og nærmeste medarbejdere
+  * Oprettelse og administration af medarbejdere og løn
+  * Månedlig lønudbetaling
+  * Udarbejdelse af kontorhåndbogen
+  * oprettelse og administration af produktype og produkter
+  * Udarbejdelse af marketingkataloget
+  * oprettelse og administration af database brugere
+
+* Salgschef og salgsafdelingens medarbejdere
+  * Oprettelse og administration af kunder og slagsordrer
+  * Oprettelse af slagsordre
+  * Pakning og afsendelse af slagsordre
+  * Fakturering af slagsordre ved afsendelse
+  * Betalingsregistrering af slagsordre
+
+* Indkøbschef og indkøbsafdelingens medarbejdere
+  * Oprettelse og administration af leverandrører og købsordrer
+  * Oprettelse af købsordre
+  * Udpakning og lagerplacering af købsordre
+  * Betaling af købsordre ved modtagelse
