@@ -9,6 +9,8 @@
 ## noter:
 så få tabeller som muligt
 
+2. DB tabel skemaer og brugerprofiler
+
 Page 4/21 
 NewEmployee (EmployeeID, FuldeName, ContactDetails, SalaryDetails, Title, Department, StartDate) 
 
