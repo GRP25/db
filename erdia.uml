@@ -88,7 +88,7 @@ entity "Timesedler" as tse {
     * status
     --
     arbejdstimer
-    staus - eployee_id
+    staus_eployee_id
     bemærkning
 }
 
@@ -108,18 +108,18 @@ object "confirms" as con
 'Relationships
 
 emp -r- cpe
-cpe -r- sup
-cpe -r- sup
+cpe .r. sup
+cpe .r. sup
 
 emp -u- cre
 emp -u- con
 
-con -u- tse
-cre -u- tse
+tse .r. con
+tse .r. cre
 
 sup -r- sel
-sel -u- pro
-sel -u- pro
+sel .u. pro
+sel .u. pro
 
 cus -r- buy
 buy -d- pro
