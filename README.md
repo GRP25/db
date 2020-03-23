@@ -5,7 +5,7 @@
 * Usecases in the database
 
 <span style="text-decoration: underline">underline</span>
-<ul>underline</ul>
+<u>underline</u>
 _underline_
 
 # Brainstorm
