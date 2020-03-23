@@ -1,26 +1,94 @@
 @startuml
+
+skinparam linetype ortho
+
 object Employee {
-    # id
-    - fornavn
-    - efternavn
-    - addresse
-    - postnummer
-    - by
-    - timeløn
-    + stilling
-    + afdeling
-    - start_dato
-    # slut_dato
+    # EmployeeID
+    - Firstname
+    - LastName
+    - Address
+    - PostalCode
+    - City
+    - TlfNumber
+    - Salary
+    + Title
+    + Department
+    - start_date
+    # end_date
 }
-object Produkt
-object Customer
-object Supplier
+object Product {
+    # ProductID
+    - Details
+    - HTMLDescription
+    - Image
+    + SupplierID
+    - PurchasePrice
+    - SalesPrice
+    - StockQuantity
+    - TransportSC
+    - TransportCC
+}
+object Customer {
+    # CustomerID
+    - FirstName
+    - LastName
+    - Address
+    - PostalCode
+    - City
+    - TlfNumber
+    - CreditLimit
+}
+object SalesOrder {
+    # SalesOrderID
+    + CustomerÍD
+    - ShippingDate
+    - BillingDate
+    - PaymentDate
+}
+object SalesOrderLine {
+    # SalesOrderID
+    # ProductID
+    - Amount
+    - SalesPrice
+}
+object Supplier {
+    # SupplierID
+    - SupplierName
+    - ContactPersen
+    - Address
+    - PostalCode
+    - City
+    - TlfNumber
+}
+object PurchaseOrder {
+    # PurchaseOrderID
+    + SuplierID
+    - OrderDate
+    - DateOfReceipt
+    - DateOfPayment
+}
+object PurchaseOrderLine {
+    # PurchaseOrderID
+    # ProductId
+    - Amount
+    - PurchasePrice
+}
 object Timesedler {
     # eployee_id
     # arbejdsdato
     - arbejdstimer
     - status
-    # staus - eployee_id
+    # staus 
+    - eployee_id
     - bemærkning
 }
+
+PurchaseOrder ||--|{ PurchaseOrderLine
+Product ||--|{ PurchaseOrderLine
+Supplier ||--|{ Product
+Customer ||--|{ SalesOrder
+SalesOrder ||--|{ SalesOrderLine
+Product ||--|{ SalesOrderLine
+Supplier ||--|{ PurchaseOrder
+Employee ||--|{ Timesedler
 @enduml
