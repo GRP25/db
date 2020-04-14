@@ -1,4 +1,4 @@
-# ALLE CREATE TABLE SQL KOMANDOER
+/*ALLE CREATE TABLE SQL KOMANDOER*/
 
 
 CREATE TABLE Customer(
@@ -9,4 +9,5 @@ CREATE TABLE Customer(
     postal_code VARCHAR(4),
     city VARCHAR(25),
     phone VARCHAR(8) NOT NULL,
-    credit_limit INT NOT NULL);
+    credit_limit INT NOT NULL
+);
