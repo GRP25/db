@@ -62,3 +62,8 @@ PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is num
   * Oprettelse af købsordre
   * Udpakning og lagerplacering af købsordre
   * Betaling af købsordre ved modtagelse
+
+# TODO
+1. Lav en liste over ting hvor vi skal interagere med db
+2. Lav SQL kode 
+3. Kobler sammen med java
