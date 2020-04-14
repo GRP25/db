@@ -11,8 +11,9 @@ object Employee {
     - City
     - TlfNumber
     - Salary
-    + Title
-    + Department
+    - Title
+    - Department
+    - Boss
     - start_date
     # end_date
 }
