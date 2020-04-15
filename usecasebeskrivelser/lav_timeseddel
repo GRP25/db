@@ -1,0 +1,14 @@
+Opret en bruger Usecase:
+
+GOD user som hedder cdio kan oprette brugere.
+
+1. Opretter Employee
+2. Trigger (CREATE USER med username = EmployeeID)
+
+
+
+
+Opret en timeseddel Usecase
+
+1. Bruger skal være logget ind (som en MySQL.user) 
+2. Bruger har et ID 
