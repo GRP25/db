@@ -52,10 +52,16 @@ PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is num
 
 * Salgschef og salgsafdelingens medarbejdere
   * Oprettelse og administration af kunder og slagsordrer
+    * Insert and update functions
   * Oprettelse af slagsordre
+    * Insert functions
   * Pakning og afsendelse af slagsordre
+    * Views Pakning with SalesOrders Lines
+    * Views Afsendelse with SalesOrder and address
   * Fakturering af slagsordre ved afsendelse
+    * Update invoice date when printing Order address
   * Betalingsregistrering af slagsordre
+    * Update function
 
 * Indkøbschef og indkøbsafdelingens medarbejdere
   * Oprettelse og administration af leverandrører og købsordrer
@@ -67,3 +73,4 @@ PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is num
 1. Lav en liste over ting hvor vi skal interagere med db
 2. Lav SQL kode 
 3. Kobler sammen med java
+4. Under Customer skal CreditLimit være decimal tal
