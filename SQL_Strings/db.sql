@@ -1,21 +1,30 @@
+USE dbprojekt;
+SHOW databases;
+SHOW tables;
+
 /*OK*/
+/*DROP TABLE IF EXISTS Empolyee;
+DROP TABLE IF EXISTS Department;
+DROP TABLE IF EXISTS Customer;
+DROP TABLE IF EXISTS Product;
+DROP TABLE IF EXISTS PurchaseOrder;
+DROP TABLE IF EXISTS PurchaseOrderLine;
+DROP TABLE IF EXISTS SalesOrder;
+DROP TABLE IF EXISTS SalesOrderLine;
+DROP TABLE IF EXISTS Supplier;
+DROP TABLE IF EXISTS TimeStamps;*/
+
 CREATE TABLE Department (
     DepartmentName varchar(10) NOT NULL,
-    BossID char(6) DEFAULT NULL,
-    PRIMARY KEY (DepartmentName),
-    FOREIGN KEY (BossID) REFERENCES Employee(EmployeeID)
+    PRIMARY KEY (DepartmentName)
 );
 
-CREATE TABLE Customer (
-    CustomerID char(7) NOT NULL,
-    FirstName varchar(25) NOT NULL,
-    LastName varchar(25) NOT NULL,
-    Address varchar(50) DEFAULT NULL,
-    PostalCode char(4) DEFAULT NULL,
-    City varchar(25) DEFAULT NULL,
-    Phone varchar(8) NOT NULL,
-    CreditLimit INT NOT NULL,
-    PRIMARY KEY (customer_id)
+CREATE TABLE COTable(
+	BossID char(6) DEFAULT NULL,
+    DepartmentName varchar(10) NOT NULL,
+    FOREIGN KEY (BossID) REFERENCES Employee(EmployeeID),
+    FOREIGN KEY (DepartmentName) REFERENCES Department(DepartmentName),
+    UNIQUE(BossID,DepartmentName) 
 ) ;
 
 CREATE TABLE Employee (
@@ -32,7 +41,19 @@ CREATE TABLE Employee (
     StartDate date DEFAULT NULL,
     EndDate date,
     FOREIGN KEY (Department) REFERENCES Department(DepartmentName),
-    PRIMARY KEY (EmployeeID, end_date)
+    PRIMARY KEY (EmployeeID, EndDate)
+) ;
+
+CREATE TABLE Customer (
+    CustomerID char(7) NOT NULL,
+    FirstName varchar(25) NOT NULL,
+    LastName varchar(25) NOT NULL,
+    Address varchar(50) DEFAULT NULL,
+    PostalCode char(4) DEFAULT NULL,
+    City varchar(25) DEFAULT NULL,
+    Phone varchar(8) NOT NULL,
+    CreditLimit INT NOT NULL,
+    PRIMARY KEY (CustomerID)
 ) ;
 
 CREATE TABLE Product (
@@ -71,13 +92,13 @@ CREATE TABLE PurchaseOrderLine (
 
 CREATE TABLE SalesOrder (
   SalesOrderID char(7) NOT NULL,
-  CustomerID INT NOT NULL,
-  OrderDate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  ShippingDate timestamp DEFAULT NULL,
-  InvoiceDate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PaymentDate timestamp DEFAULT NULL,
+  CustomerID Char(7) NOT NULL,
+  OrderDate date NOT NULL,
+  ShippingDate date DEFAULT NULL,
+  InvoiceDate date NOT NULL,
+  PaymentDate date DEFAULT NULL,
   PRIMARY KEY (SalesOrderID),
-  FOREIGN KEY (customer_id) REFERENCES Customer (customer_id)
+  FOREIGN KEY (CustomerID) REFERENCES Customer (CustomerID)
 ) ;
 
 CREATE TABLE SalesOrderLine (
@@ -112,3 +133,5 @@ CREATE TABLE TimeStamps (
     FOREIGN KEY (BossID) REFERENCES Employee (EmployeeID),
     PRIMARY KEY (EmployeeID, WorkDate)
 ) ;
+
+
