@@ -67,3 +67,4 @@ PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is num
 1. Lav en liste over ting hvor vi skal interagere med db
 2. Lav SQL kode 
 3. Kobler sammen med java
+4. Under Customer skal CreditLimit være decimal tal
