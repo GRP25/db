@@ -38,8 +38,9 @@ CREATE TABLE Employee (
     Salary INT DEFAULT NULL,
     Title varchar(25) DEFAULT NULL,
     Department varchar(10) NOT NULL,
-    StartDate date DEFAULT NULL,
+    StartDate date NOT NULL,
     EndDate date,
+    AcountNo INT, NOT NULL
     FOREIGN KEY (Department) REFERENCES Department(DepartmentName),
     PRIMARY KEY (EmployeeID, EndDate)
 ) ;
@@ -58,6 +59,7 @@ CREATE TABLE Customer (
 
 CREATE TABLE Product (
     ProductID char(6) NOT NULL,
+    ProductType varchar(25) NOT NULL,
     Details varchar(200) DEFAULT NULL,
     HTMLDescription varchar(200) DEFAULT NULL,
     Image varchar(25) DEFAULT NULL,
@@ -69,7 +71,16 @@ CREATE TABLE Product (
     TransportCC varchar(30) DEFAULT NULL,
     PRIMARY KEY (ProductID),
     FOREIGN KEY (SupplierID) REFERENCES Supplier (SupplierID)
+    FOREIGN KEY (ProductType) REFERENCES ProductType (ProductType)
 ) ;
+
+CREATE TABLE ProductType (
+    ProductType varchar(25) NOT NULL,
+    Description varchar(200) DEFAULT NULL,
+    HTMLDescription varchar(200) DEFAULT NULL,
+    Image varchar(25) DEFAULT NULL,
+    PRIMARY KEY (ProductType),
+)
 
 CREATE TABLE PurchaseOrder (
   PurchaseOrderID char(6) NOT NULL,
