@@ -2,8 +2,9 @@
 CREATE TABLE Department (
     DepartmentName varchar(10) NOT NULL,
     BossID char(6) DEFAULT NULL,
-    FOREIGN KEY BossID REFERENCES Employee(EmployeeID)
-)
+    PRIMARY KEY (DepartmentName),
+    FOREIGN KEY (BossID) REFERENCES Employee(EmployeeID)
+);
 
 CREATE TABLE Customer (
     CustomerID char(7) NOT NULL,
@@ -15,7 +16,7 @@ CREATE TABLE Customer (
     Phone varchar(8) NOT NULL,
     CreditLimit INT NOT NULL,
     PRIMARY KEY (customer_id)
-) 
+) ;
 
 CREATE TABLE Employee (
     EmployeeID char(6),
@@ -30,9 +31,9 @@ CREATE TABLE Employee (
     Department varchar(10) NOT NULL,
     StartDate date DEFAULT NULL,
     EndDate date,
-    FOREIGN KEY (Department) REFERENCES Department(DepartmentName)
+    FOREIGN KEY (Department) REFERENCES Department(DepartmentName),
     PRIMARY KEY (EmployeeID, end_date)
-) 
+) ;
 
 CREATE TABLE Product (
     ProductID char(6) NOT NULL,
@@ -47,7 +48,7 @@ CREATE TABLE Product (
     TransportCC varchar(30) DEFAULT NULL,
     PRIMARY KEY (ProductID),
     FOREIGN KEY (SupplierID) REFERENCES Supplier (SupplierID)
-) 
+) ;
 
 CREATE TABLE PurchaseOrder (
   PurchaseOrderID char(6) NOT NULL,
@@ -57,7 +58,7 @@ CREATE TABLE PurchaseOrder (
   DateOfPayment date DEFAULT NULL,
   PRIMARY KEY (PurchaseOrderID),
   FOREIGN KEY (SupplierID) REFERENCES Supplier (SupplierID)
-) 
+) ;
 
 CREATE TABLE PurchaseOrderLine (
   PurchaseOrderID char(6) NOT NULL,
@@ -66,18 +67,18 @@ CREATE TABLE PurchaseOrderLine (
   PurchasePrice DECIMAL(20,2) DEFAULT NULL,
   FOREIGN KEY (PurchaseOrderID) REFERENCES PurchaseOrder (PurchaseOrderID),
   FOREIGN KEY (ProductID) REFERENCES Product (ProductID)
-) 
+) ;
 
 CREATE TABLE SalesOrder (
   SalesOrderID char(7) NOT NULL,
   CustomerID INT NOT NULL,
   OrderDate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  ShippingDate timestamp DEFAULT NULL
+  ShippingDate timestamp DEFAULT NULL,
   InvoiceDate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PaymentDate timestamp DEFAULT NULL
+  PaymentDate timestamp DEFAULT NULL,
   PRIMARY KEY (SalesOrderID),
   FOREIGN KEY (customer_id) REFERENCES Customer (customer_id)
-) 
+) ;
 
 CREATE TABLE SalesOrderLine (
     SalesOrderID char(7) NOT NULL,
@@ -87,7 +88,7 @@ CREATE TABLE SalesOrderLine (
     FOREIGN KEY (SalesOrderID) REFERENCES SalesOrder (SalesOrderID),
     FOREIGN KEY (ProductID) REFERENCES Product (ProductID),
     PRIMARY KEY(SalesOrderID, ProductID)
-) 
+) ;
 
 CREATE TABLE Supplier (
     SupplierID char(6) NOT NULL,
@@ -98,7 +99,7 @@ CREATE TABLE Supplier (
     City varchar(25) DEFAULT NULL,
     Phone varchar(8) NOT NULL,
     PRIMARY KEY (SupplierID)
-) 
+) ;
 
 CREATE TABLE TimeStamps (
     EmployeeID char(6) NOT NULL,
@@ -110,4 +111,4 @@ CREATE TABLE TimeStamps (
     FOREIGN KEY (EmployeeID) REFERENCES Employee (EmployeeID),
     FOREIGN KEY (BossID) REFERENCES Employee (EmployeeID),
     PRIMARY KEY (EmployeeID, WorkDate)
-) 
+) ;
