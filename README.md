@@ -76,6 +76,7 @@ PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is num
     1.2. Opbyg views
     1.3. Opret brugere og roller
     1.4. Finpuds og ret potentielle fejl.
+    1.5. Opbyg databasen fra grunden igen
 2. Kobl SQL kode sammen med java
 3. Under Customer skal CreditLimit være decimal tal
 

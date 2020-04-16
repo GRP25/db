@@ -126,11 +126,12 @@ CREATE TABLE SalesOrderLine (
 CREATE TABLE Supplier (
     SupplierID char(6) NOT NULL,
     SupplierName varchar(25) NOT NULL,
-    ContactPerson varchar(25) NOT NULL,
+    ContactPerson char(6) NOT NULL,
     Address varchar(50) DEFAULT NULL,
     PostalCode varchar(4) DEFAULT NULL,
     City varchar(25) DEFAULT NULL,
     Phone varchar(8) NOT NULL,
+    FOREIGN KEY (ContactPerson) REFERENCES Employee (EmployeeID)
     PRIMARY KEY (SupplierID)
 ) ;
 
