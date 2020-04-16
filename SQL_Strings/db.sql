@@ -84,7 +84,7 @@ CREATE TABLE ProductType (
 )
 
 CREATE TABLE PurchaseOrder (
-  PurchaseOrderID char(6) NOT NULL,
+  PurchaseOrderID char(7) NOT NULL,
   SupplierID char(6) NOT NULL,
   OrderDate date NOT NULL,
   DateOfReceipt date DEFAULT NULL,
