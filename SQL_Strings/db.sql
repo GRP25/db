@@ -13,6 +13,8 @@ DROP TABLE IF EXISTS SalesOrderLine;
 DROP TABLE IF EXISTS Supplier;
 DROP TABLE IF EXISTS TimeStamps;*/
 
+
+---------- Sequence Tables -------------
 CREATE TABLE Customer_seq (
 	Customer_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
 );
@@ -42,8 +44,7 @@ CREATE TABLE Department (
     PRIMARY KEY (DepartmentName)
 );
 
-
-
+---------- Tables --------
 CREATE TABLE Employee (
     EmployeeID char(6),
     FirstName varchar(25) NOT NULL,
@@ -176,7 +177,7 @@ CREATE TABLE TimeStamps (
 ) ;
 
 
--- creation of triggers
+-------- Triggers --------------
 DELIMITER $$
 CREATE TRIGGER Customer_ID_Insert BEFORE INSERT ON Customer 
 FOR EACH ROW 
@@ -233,5 +234,3 @@ INNER JOIN Product ON SalesOrderLine.ProductID=Product.ProductID;
 CREATE VIEW Invoice
 AS SELECT packing_list.SalesOrderID, packing_list.ProductID, packing_list.Details, packing_list.Amount, Product.SalesPrice, packing_list.Amount*Product.SalesPrice 'TotalLinePrice' FROM packing_list
 INNER JOIN Product ON packing_list.ProductID = Product.ProductID;
-
-
