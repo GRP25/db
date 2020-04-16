@@ -14,6 +14,30 @@ DROP TABLE IF EXISTS SalesOrderLine;
 DROP TABLE IF EXISTS Supplier;
 DROP TABLE IF EXISTS TimeStamps;*/
 
+CREATE TABLE Customer_seq (
+	Customer_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE TABLE Employee_seq (
+	Employee_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE TABLE Product_seq (
+	Product_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE TABLE PurchaseOrder_seq (
+	PurchaseOrder_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE TABLE SalesOrder_seq (
+	SalesOrder_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE TABLE Supplier_seq (
+	SalesOrder_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
 CREATE TABLE Department (
     DepartmentName varchar(10) NOT NULL,
     PRIMARY KEY (DepartmentName)
@@ -53,9 +77,10 @@ CREATE TABLE Customer (
     PostalCode char(4) DEFAULT NULL,
     City varchar(25) DEFAULT NULL,
     Phone varchar(8) NOT NULL,
-    CreditLimit INT NOT NULL,
+    Mail varchar(50),
+    CreditLimit DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (CustomerID)
-) ;
+);
 
 CREATE TABLE Product (
     ProductID char(6) NOT NULL,
@@ -104,14 +129,14 @@ CREATE TABLE PurchaseOrderLine (
 
 CREATE TABLE SalesOrder (
   SalesOrderID char(7) NOT NULL,
-  CustomerID Char(6) NOT NULL,
+  CustomerID char(6) NOT NULL,
   OrderDate date NOT NULL,
   ShippingDate date DEFAULT NULL,
   InvoiceDate date NOT NULL,
   PaymentDate date DEFAULT NULL,
   PRIMARY KEY (SalesOrderID),
   FOREIGN KEY (CustomerID) REFERENCES Customer (CustomerID)
-) ;
+);
 
 CREATE TABLE SalesOrderLine (
     SalesOrderID char(7) NOT NULL,
@@ -146,5 +171,60 @@ CREATE TABLE TimeStamps (
     FOREIGN KEY (BossID) REFERENCES Employee (EmployeeID),
     PRIMARY KEY (EmployeeID, WorkDate)
 ) ;
+
+
+-- creation of triggers
+DELIMITER $$
+CREATE TRIGGER Customer_ID_Insert BEFORE INSERT ON Customer 
+FOR EACH ROW 
+Begin
+	INSERT INTO Customer_seq VALUES (NULL);
+	SET NEW.CustomerID = CONCAT ('K', LPAD(LAST_INSERT_ID(), 5, '0'));
+END $$
+
+CREATE TRIGGER Employee_ID_Insert BEFORE INSERT ON Employee 
+FOR EACH ROW 
+Begin
+	INSERT INTO Employee_seq VALUES (NULL);
+	SET NEW.EmployeeID = CONCAT ('M', LPAD(LAST_INSERT_ID(), 5, '0'));
+END $$
+
+CREATE TRIGGER Product_ID_Insert BEFORE INSERT ON Product 
+FOR EACH ROW 
+BEGIN
+	INSERT INTO Product_seq VALUES (NULL);
+	SET NEW.ProductID = CONCAT ('P', LPAD(LAST_INSERT_ID(), 5, '0'));
+END $$
+
+CREATE TRIGGER PurchaseOrder_ID_Insert BEFORE INSERT ON PurchaseOrder 
+FOR EACH ROW 
+BEGIN
+	INSERT INTO PurchaseOrder_seq VALUES (NULL);
+	SET NEW.PurchaseOrderID = CONCAT ('KO', LPAD(LAST_INSERT_ID(), 5, '0'));
+END $$
+
+CREATE TRIGGER SalesOrder_ID_Insert BEFORE INSERT ON SalesOrder 
+FOR EACH ROW 
+BEGIN
+	INSERT INTO SalesOrder_seq VALUES (NULL);
+	SET NEW.SalesOrderID = CONCAT ('SO', LPAD(LAST_INSERT_ID(), 5, '0'));
+END $$
+
+CREATE TRIGGER Supplier_ID_Insert BEFORE INSERT ON Supplier 
+FOR EACH ROW 
+BEGIN
+	INSERT INTO Supplier_seq VALUES (NULL);
+	SET NEW.SupplierID = CONCAT ('L', LPAD(LAST_INSERT_ID(), 5, '0'));
+END $$
+
+--------- VIEWs ---------------
+
+CREATE VIEW Dispatch
+AS SELECT SalesOrder.CustomerID, Customer.FirstName, Customer.LastName, Customer.Address FROM SalesOrder
+INNER JOIN Customer ON SalesOrder.CustomerID = Customer.CustomerID;
+
+CREATE VIEW Invoice
+AS SELECT packing_list.SalesOrderID, packing_list.ProductID, packing_list.Details, packing_list.Amount, Product.SalesPrice, packing_list.Amount*Product.SalesPrice 'TotalLinePrice' FROM packing_list
+INNER JOIN Product ON packing_list.ProductID = Product.ProductID;
 
 
