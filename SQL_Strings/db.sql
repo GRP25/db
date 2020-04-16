@@ -1,6 +1,5 @@
-USE dbprojekt;
-SHOW databases;
-SHOW tables;
+CREATE DATABASE test01;
+USE test01;
 
 /*OK*/
 /*DROP TABLE IF EXISTS Empolyee;
@@ -43,13 +42,7 @@ CREATE TABLE Department (
     PRIMARY KEY (DepartmentName)
 );
 
-CREATE TABLE COTable(
-	BossID char(6) DEFAULT NULL,
-    DepartmentName varchar(10) NOT NULL,
-    FOREIGN KEY (BossID) REFERENCES Employee(EmployeeID),
-    FOREIGN KEY (DepartmentName) REFERENCES Department(DepartmentName),
-    UNIQUE(BossID,DepartmentName) 
-) ;
+
 
 CREATE TABLE Employee (
     EmployeeID char(6),
@@ -64,9 +57,17 @@ CREATE TABLE Employee (
     Department varchar(10) NOT NULL,
     StartDate date NOT NULL,
     EndDate date,
-    AcountNo INT, NOT NULL
+    AcountNo INT NOT NULL,
     FOREIGN KEY (Department) REFERENCES Department(DepartmentName),
     PRIMARY KEY (EmployeeID, EndDate)
+) ;
+
+CREATE TABLE COTable(
+	BossID char(6) DEFAULT NULL,
+    DepartmentName varchar(10) NOT NULL,
+    FOREIGN KEY (BossID) REFERENCES Employee(EmployeeID),
+    FOREIGN KEY (DepartmentName) REFERENCES Department(DepartmentName),
+    UNIQUE(BossID,DepartmentName) 
 ) ;
 
 CREATE TABLE Customer (
@@ -82,6 +83,28 @@ CREATE TABLE Customer (
     PRIMARY KEY (CustomerID)
 );
 
+
+
+CREATE TABLE ProductType (
+    ProductType varchar(25) NOT NULL,
+    Description varchar(200) DEFAULT NULL,
+    HTMLDescription varchar(200) DEFAULT NULL,
+    Image varchar(25) DEFAULT NULL,
+    PRIMARY KEY (ProductType)
+);
+
+CREATE TABLE Supplier (
+    SupplierID char(6) NOT NULL,
+    SupplierName varchar(25) NOT NULL,
+    ContactPerson char(6) NOT NULL,
+    Address varchar(50) DEFAULT NULL,
+    PostalCode varchar(4) DEFAULT NULL,
+    City varchar(25) DEFAULT NULL,
+    Phone varchar(8) NOT NULL,
+    FOREIGN KEY (ContactPerson) REFERENCES Employee (EmployeeID),
+    PRIMARY KEY (SupplierID)
+) ;
+
 CREATE TABLE Product (
     ProductID char(6) NOT NULL,
     ProductName varchar(25) NOT NULL,
@@ -96,17 +119,9 @@ CREATE TABLE Product (
     TransportSC varchar(30) DEFAULT NULL,
     TransportCC varchar(30) DEFAULT NULL,
     PRIMARY KEY (ProductID),
-    FOREIGN KEY (SupplierID) REFERENCES Supplier (SupplierID)
+    FOREIGN KEY (SupplierID) REFERENCES Supplier (SupplierID),
     FOREIGN KEY (ProductType) REFERENCES ProductType (ProductType)
 ) ;
-
-CREATE TABLE ProductType (
-    ProductType varchar(25) NOT NULL,
-    Description varchar(200) DEFAULT NULL,
-    HTMLDescription varchar(200) DEFAULT NULL,
-    Image varchar(25) DEFAULT NULL,
-    PRIMARY KEY (ProductType),
-)
 
 CREATE TABLE PurchaseOrder (
   PurchaseOrderID char(7) NOT NULL,
@@ -146,18 +161,6 @@ CREATE TABLE SalesOrderLine (
     FOREIGN KEY (SalesOrderID) REFERENCES SalesOrder (SalesOrderID),
     FOREIGN KEY (ProductID) REFERENCES Product (ProductID),
     PRIMARY KEY(SalesOrderID, ProductID)
-) ;
-
-CREATE TABLE Supplier (
-    SupplierID char(6) NOT NULL,
-    SupplierName varchar(25) NOT NULL,
-    ContactPerson char(6) NOT NULL,
-    Address varchar(50) DEFAULT NULL,
-    PostalCode varchar(4) DEFAULT NULL,
-    City varchar(25) DEFAULT NULL,
-    Phone varchar(8) NOT NULL,
-    FOREIGN KEY (ContactPerson) REFERENCES Employee (EmployeeID)
-    PRIMARY KEY (SupplierID)
 ) ;
 
 CREATE TABLE TimeStamps (
@@ -222,6 +225,10 @@ END $$
 CREATE VIEW Dispatch
 AS SELECT SalesOrder.CustomerID, Customer.FirstName, Customer.LastName, Customer.Address FROM SalesOrder
 INNER JOIN Customer ON SalesOrder.CustomerID = Customer.CustomerID;
+
+CREATE VIEW packing_list
+AS SELECT SalesOrderLine.SalesOrderID, SalesOrderLine.ProductID, Product.Details, SalesOrderLine.Amount FROM SalesOrderLine
+INNER JOIN Product ON SalesOrderLine.ProductID=Product.ProductID;
 
 CREATE VIEW Invoice
 AS SELECT packing_list.SalesOrderID, packing_list.ProductID, packing_list.Details, packing_list.Amount, Product.SalesPrice, packing_list.Amount*Product.SalesPrice 'TotalLinePrice' FROM packing_list
