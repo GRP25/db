@@ -7,7 +7,7 @@ INNER JOIN Customer ON SalesOrder.CustomerID = Customer.CustomerID;
 SELECT * FROM Dispatch;
 
 CREATE VIEW Invoice
-AS SELECT SalesOrderLine.SalesOrderID, Product.ProductID, Product.Details, SalesOrderLine.Amount, SalesOrderLine.SalesPrice, SalesOrderLine.Amount*Product.SalesPrice 'TotalLinePrice' FROM SalesOrderLine
+AS SELECT SalesOrderLine.SalesOrderID, Product.ProductID, Product.Details, SalesOrderLine.Amount, SalesOrderLine.SalesPrice, SalesOrderLine.Amount*SalesOrderLine.SalesPrice 'TotalLinePrice' FROM SalesOrderLine
 INNER JOIN Product ON SalesOrderLine.ProductID = Product.ProductID;
 
 CREATE VIEW packing_list
