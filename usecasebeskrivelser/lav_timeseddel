@@ -1,3 +1,22 @@
+Udarbejdelse af korntorhådbogen:
+
+MÅNEDLIG LØNUDBETALING:
+2.1 :wq
+
+3.1 Registrer arbejdstimer
+    + Lav en validerings Trigger
+    + Insert into timesheet
+3.2 Godkende arbejdstimer
+3.3 Vis fulde arbejdsplan
+    + Daniel laver det
+
+
+
+
+
+
+
+
 Opret en bruger Usecase:
 
 GOD user som hedder cdio kan oprette brugere.

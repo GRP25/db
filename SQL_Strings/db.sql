@@ -59,6 +59,7 @@ CREATE TABLE Customer (
 
 CREATE TABLE Product (
     ProductID char(6) NOT NULL,
+    ProductName varchar(25) NOT NULL,
     ProductType varchar(25) NOT NULL,
     Details varchar(200) DEFAULT NULL,
     HTMLDescription varchar(200) DEFAULT NULL,

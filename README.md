@@ -71,7 +71,26 @@ PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is num
   * Betaling af købsordre ved modtagelse
 
 # TODO
-1. Lav en liste over ting hvor vi skal interagere med db
-2. Lav SQL kode 
-3. Kobler sammen med java
-4. Under Customer skal CreditLimit være decimal tal
+1. Lav SQL kode
+    1.1. Lav Test data
+    1.2. Opbyg views
+    1.3. Opret brugere og roller
+    1.4. Finpuds og ret potentielle fejl.
+2. Kobl SQL kode sammen med java
+3. Under Customer skal CreditLimit være decimal tal
+
+# VIEWS 
+* Direktør og nærmeste medarbejdere
+    * Kontorhånbogen 
+    * Marketingskatalog
+    * (fra dato /til dato) opgørelse view over løn og medarbejdere - Kan tilpasses med WHERE
+    * Timesedler (Employee view)
+    * Timesedler (Boss view) - Måske ska boss have adgang til selve tabellen
+* Salgschef og salgsafdelingens medarbejdere og kunder
+    * Pakings liste
+    * Salgordrer og addresser (Afsendelse)
+    * Alle oplysninger til fakturaen 
+* Indkøbschef og indkøbsafdelingens medarbejdere
+    * Supplierliste med info om kontaktpersoner
+    * Oversigt over køb med info om kontaktperson og supplier
+    * Købsordrer og addresser (Afsendelse)

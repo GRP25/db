@@ -12,7 +12,27 @@ create view timesheet AS
 
 
 /* View for at se en måneds samlede løn udbetaling */
+/*
+FORVENTET OUTPUT:
+    Hver række viser 
+        Navn, 
+        Sammenlagt løn for valgt måned,
+        Afdeling,
+        Antal timer,
+        fra dato,
+        til dato,
+        KontoNr,
+
+        ex:
+        Bob Jensen, 10.000, Sales, 37, 20200101, 20200131
+        Bob Jensen, 10.000, Sales, 37, 20200101, 20200131
+        Bob Jensen, 10.000, Sales, 37, 20200101, 20200131
+        Bob Jensen, 10.000, Sales, 37, 20200101, 20200131
+        Bob Jensen, 10.000, Sales, 37, 20200101, 20200131
+        Bob Jensen, 10.000, Sales, 37, 20200101, 20200131
+*/
 CREATE VIEW SalaryOverview AS
+    SELECT arbejstimer FROM TimeStamps WHERE arbejsdato > ? AND arbejsdato < ? AND EmployeeID = ? AND Status = 'godkendt'
 
 
 
@@ -23,6 +43,6 @@ INSERT INTO dbprojekt.timesheet (`EmployeeID`,`Notice`,`WorkDate`,`WorkHours`) V
 /*Godkend arbejdstimer*/
 UPDATE dbprojekt.TimeStamps (`BossID`, `Status`, `Notice`) VALUES ('p01234', 'godkendt', '')
 
-/* Månedlig Lønning */
+/* Månedlig Lønning for Deltidsmedarbejder */
 SELECT arbejstimer FROM TimeStamps WHERE arbejsdato > ? AND arbejsdato < ? AND EmployeeID = ? AND Status = 'godkendt'
 
