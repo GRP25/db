@@ -60,6 +60,7 @@ PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is num
     * Views Afsendelse with SalesOrder and address
   * Fakturering af slagsordre ved afsendelse
     * Update invoice date when printing Order address
+    * View to see all information for the invoide
   * Betalingsregistrering af slagsordre
     * Update function
 
