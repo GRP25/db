@@ -7,8 +7,12 @@ INNER JOIN Customer ON SalesOrder.CustomerID = Customer.CustomerID;
 SELECT * FROM Dispatch;
 
 CREATE VIEW Invoice
-AS SELECT packing_list.SalesOrderID, packing_list.ProductID, packing_list.Details, packing_list.Amount, Product.SalesPrice, packing_list.Amount*Product.SalesPrice 'TotalLinePrice' FROM packing_list
-INNER JOIN Product ON packing_list.ProductID = Product.ProductID;
+AS SELECT SalesOrderLine.SalesOrderID, Product.ProductID, Product.Details, SalesOrderLine.Amount, SalesOrderLine.SalesPrice, SalesOrderLine.Amount*Product.SalesPrice 'TotalLinePrice' FROM SalesOrderLine
+INNER JOIN Product ON SalesOrderLine.ProductID = Product.ProductID;
+
+CREATE VIEW packing_list
+AS SELECT SalesOrderLine.SalesOrderID, SalesOrderLine.ProductID, Product.Details, SalesOrderLine.Amount FROM SalesOrderLine
+INNER JOIN Product ON SalesOrderLine.ProductID=Product.ProductID;
 
 SELECT * FROM Invoice;
 

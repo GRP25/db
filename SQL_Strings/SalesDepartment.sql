@@ -110,6 +110,13 @@ BEGIN
 	SET NEW.SupplierID = CONCAT ('L', LPAD(LAST_INSERT_ID(), 5, '0'));
 END $$
 
+CREATE TRIGGER InsertSalesPrice BEFORE INSERT ON SalesOrderLine
+FOR EACH ROW
+BEGIN
+	SELECT SalesPrice FROM Product
+    INSERT INTO SalesOrderLine VALUES (SalesPrice);
+END$$
+
 ----- end of database setup
 
 
