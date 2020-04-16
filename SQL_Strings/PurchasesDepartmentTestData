@@ -1,0 +1,22 @@
+INSERT INTO Department (DepartmentName) 
+VALUES ('Purchases');
+
+INSERT INTO Employee (EmployeeID, FirstName, LastName, Department, StartDate, EndDate)
+VALUES ('M00011', 'Bo', 'Bob', 'Purchases', '19000101', '30000101');
+
+INSERT INTO PurchaseOrder (PurchaseOrderID, SupplierID, OrderDate, DateOfPayment) 
+VALUES ('KO0003', 'L00002', '20200101', '20200101');
+INSERT INTO PurchaseOrder (PurchaseOrderID, SupplierID, OrderDate, DateOfPayment) 
+VALUES ('KO0004', 'L00003', '20200101', '20200101');
+INSERT INTO PurchaseOrder (PurchaseOrderID, SupplierID, OrderDate, DateOfPayment) 
+VALUES ('KO0005', 'S00005', '19000101', '20200101');
+
+INSERT INTO PurchaseOrderLine (PurchaseOrderID, ProductID, Amount, PurchasePrice)
+VALUES ('KO0003', 'P50001', '5', '50000.00');
+INSERT INTO PurchaseOrderLine (PurchaseOrderID, ProductID, Amount, PurchasePrice)
+VALUES ('KO0004', 'P50002', '20', '20000.00');
+INSERT INTO PurchaseOrderLine (PurchaseOrderID, ProductID, Amount, PurchasePrice)
+VALUES ('KO0005', 'P50002', '50', '75000.00');
+
+INSERT INTO Supplier (SupplierID, SupplierName, City, Phone, ContactPerson)
+VALUES ('L00004', 'Bobob', 'Bobcity', 44448888, 'Bo');

@@ -1,0 +1,25 @@
+CREATE VIEW FullPurchase AS 
+SELECT * FROM PurchaseOrder 
+NATURAL LEFT OUTER JOIN PurchaseOrderLine 
+WHERE PurchaseOrder.PurchaseOrderID = PurchaseOrderLine.PurchaseOrderID;
+
+
+/* Virker måske ikke fordi ContactPerson skal være foreignkey i employee? */
+CREATE VIEW SupplyEmployees AS 
+SELECT EmployeeID, SupplierName, FirstName, LastName, Phone, StartDate
+FROM Supplier 
+NATURAL LEFT OUTER JOIN Employee
+WHERE Employee.FirstName = Supplier.ContactPerson;
+
+
+CREATE VIEW PurchasesInfo AS 
+SELECT ContactPerson, SupplierID, SupplierName, 
+PurchaseOrderID, OrderDate, ProductID, PurchasePrice
+FROM FullPurchase NATURAL LEFT OUTER JOIN Supplier 
+WHERE FullPurchase.SupplierID = Supplier.SupplierID;
+
+
+CREATE VIEW AddressOfSupplies AS 
+SELECT PurchaseOrderID, Address, PostalCode, City, Phone
+FROM FullPurchase NATURAL JOIN Supplier 
+WHERE FullPurchase.SupplierID = Supplier.SupplierID;
