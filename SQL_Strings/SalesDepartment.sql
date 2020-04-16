@@ -110,13 +110,23 @@ BEGIN
 	SET NEW.SupplierID = CONCAT ('L', LPAD(LAST_INSERT_ID(), 5, '0'));
 END $$
 
-DELIMITER $$
 CREATE TRIGGER InsertSalesPrice BEFORE INSERT ON SalesOrderLine
 FOR EACH ROW
 BEGIN
-	SELECT SalesPrice
-    INTO NEW.SalesPrice
-    FROM Product WHERE ProductID = NEW.ProductID;
+	DECLARE n INT;
+
+	SELECT SalesPrice INTO n
+	FROM Product WHERE ProductID = NEW.ProductID;
+
+    SET NEW.SalesPrice = n;
+END$$
+
+
+DELIMITER $$
+CREATE TRIGGER CurrentDate BEFORE INSERT ON SalesOrder
+FOR EACH ROW
+BEGIN
+	SET NEW.OrderData = DATE(NEW.datetime);
 END$$
 
 ----- end of database setup
