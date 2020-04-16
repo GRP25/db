@@ -87,7 +87,7 @@ PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is num
     * Timesedler (Employee view)
     * Timesedler (Boss view) - Måske ska boss have adgang til selve tabellen
 * Salgschef og salgsafdelingens medarbejdere og kunder
-    * Pakings liste
+    * Pakings liste <span style="color: limegreen;">done</span>
     * Salgordrer og addresser (Afsendelse)
     * Alle oplysninger til fakturaen 
 * Indkøbschef og indkøbsafdelingens medarbejdere
