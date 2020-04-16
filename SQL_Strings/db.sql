@@ -46,7 +46,7 @@ CREATE TABLE Employee (
 ) ;
 
 CREATE TABLE Customer (
-    CustomerID char(7) NOT NULL,
+    CustomerID char(6) NOT NULL,
     FirstName varchar(25) NOT NULL,
     LastName varchar(25) NOT NULL,
     Address varchar(50) DEFAULT NULL,
@@ -104,7 +104,7 @@ CREATE TABLE PurchaseOrderLine (
 
 CREATE TABLE SalesOrder (
   SalesOrderID char(7) NOT NULL,
-  CustomerID Char(7) NOT NULL,
+  CustomerID Char(6) NOT NULL,
   OrderDate date NOT NULL,
   ShippingDate date DEFAULT NULL,
   InvoiceDate date NOT NULL,

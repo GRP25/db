@@ -5,9 +5,31 @@ DROP TABLE SalesOrderLine;
 DROP TABLE SalesOrder;
 DROP TABLE Customer;
 
-/* Create tables statements  --------------*/
+
+-- Create tables for sales department and seq for all tables
 CREATE TABLE Customer_seq (
 	Customer_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+DROP TABLE Employee_seq;
+CREATE TABLE Employee_seq (
+	Employee_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE TABLE Product_seq (
+	Product_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE TABLE PurchaseOrder_seq (
+	PurchaseOrder_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE TABLE SalesOrder_seq (
+	SalesOrder_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE TABLE Supplier_seq (
+	SalesOrder_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
 );
 
 CREATE TABLE Customer (
@@ -44,26 +66,57 @@ CREATE TABLE SalesOrderLine (
     PRIMARY KEY(SalesOrderID, ProductID)
 ) ;
 
-/* End of create tables ----------- */
 
-/* Creating triggers --------------*/
+-- creation of triggers
 DELIMITER $$
 CREATE TRIGGER Customer_ID_Insert BEFORE INSERT ON Customer 
 FOR EACH ROW 
-BEGIN
 	INSERT INTO Customer_seq VALUES (NULL);
 	SET NEW.CustomerID = CONCAT ('K', LPAD(LAST_INSERT_ID(), 5, '0'));
+$$
+
+DELIMITER $$
+CREATE TRIGGER Employee_ID_Insert BEFORE INSERT ON Employee 
+FOR EACH ROW 
+Begin
+	INSERT INTO Employee_seq VALUES (NULL);
+	SET NEW.EmployeeID = CONCAT ('M', LPAD(LAST_INSERT_ID(), 5, '0'));
 END $$
-/* End of creating triggers ------------- */
 
-/* Creating VIEWs -----------*/
-DROP VIEW packing_list;
+CREATE TRIGGER Product_ID_Insert BEFORE INSERT ON Product 
+FOR EACH ROW 
+BEGIN
+	INSERT INTO Product_seq VALUES (NULL);
+	SET NEW.ProductID = CONCAT ('P', LPAD(LAST_INSERT_ID(), 5, '0'));
+END $$
 
-CREATE VIEW packing_list 
-AS SELECT SalesOrderLine.SalesOrderID, SalesOrderLine.ProductID, Product.Details, SalesOrderLine.Amount FROM SalesOrderLine 
-INNER JOIN Product ON SalesOrderLine.ProductID=Product.ProductID;
+CREATE TRIGGER PurchaseOrder_ID_Insert BEFORE INSERT ON PurchaseOrder 
+FOR EACH ROW 
+BEGIN
+	INSERT INTO PurchaseOrder_seq VALUES (NULL);
+	SET NEW.PurchaseOrderID = CONCAT ('KO', LPAD(LAST_INSERT_ID(), 5, '0'));
+END $$
 
-/* end of creatings views --------*/
+CREATE TRIGGER SalesOrder_ID_Insert BEFORE INSERT ON SalesOrder 
+FOR EACH ROW 
+BEGIN
+	INSERT INTO SalesOrder_seq VALUES (NULL);
+	SET NEW.SalesOrderID = CONCAT ('SO', LPAD(LAST_INSERT_ID(), 5, '0'));
+END $$
+
+CREATE TRIGGER Supplier_ID_Insert BEFORE INSERT ON Supplier 
+FOR EACH ROW 
+BEGIN
+	INSERT INTO Supplier_seq VALUES (NULL);
+	SET NEW.SupplierID = CONCAT ('L', LPAD(LAST_INSERT_ID(), 5, '0'));
+END $$
+
+----- end of database setup
+
+
+
+
+
 
 /* Using view with where condition */
 SELECT * FROM packing_list WHERE SalesOrderID='SO60002';
