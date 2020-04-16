@@ -11,7 +11,6 @@ CREATE TABLE Customer_seq (
 	Customer_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
 );
 
-DROP TABLE Employee_seq;
 CREATE TABLE Employee_seq (
 	Employee_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
 );
@@ -173,5 +172,3 @@ WHERE SalesOrderID = 'SO60002';  /* Enter SalesOrderID */
 
 
 SELECT * FROM SalesOrder
-
-

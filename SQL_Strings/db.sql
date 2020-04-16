@@ -1,6 +1,5 @@
-USE dbprojekt;
-SHOW databases;
-SHOW tables;
+CREATE DATABASE test01;
+USE test01;
 
 /*OK*/
 /*DROP TABLE IF EXISTS Empolyee;
@@ -14,19 +13,38 @@ DROP TABLE IF EXISTS SalesOrderLine;
 DROP TABLE IF EXISTS Supplier;
 DROP TABLE IF EXISTS TimeStamps;*/
 
+
+---------- Sequence Tables -------------
+CREATE TABLE Customer_seq (
+	Customer_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE TABLE Employee_seq (
+	Employee_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE TABLE Product_seq (
+	Product_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE TABLE PurchaseOrder_seq (
+	PurchaseOrder_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE TABLE SalesOrder_seq (
+	SalesOrder_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+CREATE TABLE Supplier_seq (
+	SalesOrder_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
 CREATE TABLE Department (
     DepartmentName varchar(10) NOT NULL,
     PRIMARY KEY (DepartmentName)
 );
 
-CREATE TABLE COTable(
-	BossID char(6) DEFAULT NULL,
-    DepartmentName varchar(10) NOT NULL,
-    FOREIGN KEY (BossID) REFERENCES Employee(EmployeeID),
-    FOREIGN KEY (DepartmentName) REFERENCES Department(DepartmentName),
-    UNIQUE(BossID,DepartmentName) 
-) ;
-
+---------- Tables --------
 CREATE TABLE Employee (
     EmployeeID char(6),
     FirstName varchar(25) NOT NULL,
@@ -40,9 +58,17 @@ CREATE TABLE Employee (
     Department varchar(10) NOT NULL,
     StartDate date NOT NULL,
     EndDate date,
-    AcountNo INT, NOT NULL
+    AcountNo INT NOT NULL,
     FOREIGN KEY (Department) REFERENCES Department(DepartmentName),
     PRIMARY KEY (EmployeeID, EndDate)
+) ;
+
+CREATE TABLE COTable(
+	BossID char(6) DEFAULT NULL,
+    DepartmentName varchar(10) NOT NULL,
+    FOREIGN KEY (BossID) REFERENCES Employee(EmployeeID),
+    FOREIGN KEY (DepartmentName) REFERENCES Department(DepartmentName),
+    UNIQUE(BossID,DepartmentName) 
 ) ;
 
 CREATE TABLE Customer (
@@ -53,8 +79,31 @@ CREATE TABLE Customer (
     PostalCode char(4) DEFAULT NULL,
     City varchar(25) DEFAULT NULL,
     Phone varchar(8) NOT NULL,
-    CreditLimit INT NOT NULL,
+    Mail varchar(50),
+    CreditLimit DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (CustomerID)
+);
+
+
+
+CREATE TABLE ProductType (
+    ProductType varchar(25) NOT NULL,
+    Description varchar(200) DEFAULT NULL,
+    HTMLDescription varchar(200) DEFAULT NULL,
+    Image varchar(25) DEFAULT NULL,
+    PRIMARY KEY (ProductType)
+);
+
+CREATE TABLE Supplier (
+    SupplierID char(6) NOT NULL,
+    SupplierName varchar(25) NOT NULL,
+    ContactPerson char(6) NOT NULL,
+    Address varchar(50) DEFAULT NULL,
+    PostalCode varchar(4) DEFAULT NULL,
+    City varchar(25) DEFAULT NULL,
+    Phone varchar(8) NOT NULL,
+    FOREIGN KEY (ContactPerson) REFERENCES Employee (EmployeeID),
+    PRIMARY KEY (SupplierID)
 ) ;
 
 CREATE TABLE Product (
@@ -71,17 +120,9 @@ CREATE TABLE Product (
     TransportSC varchar(30) DEFAULT NULL,
     TransportCC varchar(30) DEFAULT NULL,
     PRIMARY KEY (ProductID),
-    FOREIGN KEY (SupplierID) REFERENCES Supplier (SupplierID)
+    FOREIGN KEY (SupplierID) REFERENCES Supplier (SupplierID),
     FOREIGN KEY (ProductType) REFERENCES ProductType (ProductType)
 ) ;
-
-CREATE TABLE ProductType (
-    ProductType varchar(25) NOT NULL,
-    Description varchar(200) DEFAULT NULL,
-    HTMLDescription varchar(200) DEFAULT NULL,
-    Image varchar(25) DEFAULT NULL,
-    PRIMARY KEY (ProductType),
-)
 
 CREATE TABLE PurchaseOrder (
   PurchaseOrderID char(7) NOT NULL,
@@ -104,14 +145,14 @@ CREATE TABLE PurchaseOrderLine (
 
 CREATE TABLE SalesOrder (
   SalesOrderID char(7) NOT NULL,
-  CustomerID Char(6) NOT NULL,
+  CustomerID char(6) NOT NULL,
   OrderDate date NOT NULL,
   ShippingDate date DEFAULT NULL,
   InvoiceDate date NOT NULL,
   PaymentDate date DEFAULT NULL,
   PRIMARY KEY (SalesOrderID),
   FOREIGN KEY (CustomerID) REFERENCES Customer (CustomerID)
-) ;
+);
 
 CREATE TABLE SalesOrderLine (
     SalesOrderID char(7) NOT NULL,
@@ -121,18 +162,6 @@ CREATE TABLE SalesOrderLine (
     FOREIGN KEY (SalesOrderID) REFERENCES SalesOrder (SalesOrderID),
     FOREIGN KEY (ProductID) REFERENCES Product (ProductID),
     PRIMARY KEY(SalesOrderID, ProductID)
-) ;
-
-CREATE TABLE Supplier (
-    SupplierID char(6) NOT NULL,
-    SupplierName varchar(25) NOT NULL,
-    ContactPerson char(6) NOT NULL,
-    Address varchar(50) DEFAULT NULL,
-    PostalCode varchar(4) DEFAULT NULL,
-    City varchar(25) DEFAULT NULL,
-    Phone varchar(8) NOT NULL,
-    FOREIGN KEY (ContactPerson) REFERENCES Employee (EmployeeID)
-    PRIMARY KEY (SupplierID)
 ) ;
 
 CREATE TABLE TimeStamps (
@@ -148,3 +177,60 @@ CREATE TABLE TimeStamps (
 ) ;
 
 
+-------- Triggers --------------
+DELIMITER $$
+CREATE TRIGGER Customer_ID_Insert BEFORE INSERT ON Customer 
+FOR EACH ROW 
+Begin
+	INSERT INTO Customer_seq VALUES (NULL);
+	SET NEW.CustomerID = CONCAT ('K', LPAD(LAST_INSERT_ID(), 5, '0'));
+END $$
+
+CREATE TRIGGER Employee_ID_Insert BEFORE INSERT ON Employee 
+FOR EACH ROW 
+Begin
+	INSERT INTO Employee_seq VALUES (NULL);
+	SET NEW.EmployeeID = CONCAT ('M', LPAD(LAST_INSERT_ID(), 5, '0'));
+END $$
+
+CREATE TRIGGER Product_ID_Insert BEFORE INSERT ON Product 
+FOR EACH ROW 
+BEGIN
+	INSERT INTO Product_seq VALUES (NULL);
+	SET NEW.ProductID = CONCAT ('P', LPAD(LAST_INSERT_ID(), 5, '0'));
+END $$
+
+CREATE TRIGGER PurchaseOrder_ID_Insert BEFORE INSERT ON PurchaseOrder 
+FOR EACH ROW 
+BEGIN
+	INSERT INTO PurchaseOrder_seq VALUES (NULL);
+	SET NEW.PurchaseOrderID = CONCAT ('KO', LPAD(LAST_INSERT_ID(), 5, '0'));
+END $$
+
+CREATE TRIGGER SalesOrder_ID_Insert BEFORE INSERT ON SalesOrder 
+FOR EACH ROW 
+BEGIN
+	INSERT INTO SalesOrder_seq VALUES (NULL);
+	SET NEW.SalesOrderID = CONCAT ('SO', LPAD(LAST_INSERT_ID(), 5, '0'));
+END $$
+
+CREATE TRIGGER Supplier_ID_Insert BEFORE INSERT ON Supplier 
+FOR EACH ROW 
+BEGIN
+	INSERT INTO Supplier_seq VALUES (NULL);
+	SET NEW.SupplierID = CONCAT ('L', LPAD(LAST_INSERT_ID(), 5, '0'));
+END $$
+
+--------- VIEWs ---------------
+
+CREATE VIEW Dispatch
+AS SELECT SalesOrder.CustomerID, Customer.FirstName, Customer.LastName, Customer.Address FROM SalesOrder
+INNER JOIN Customer ON SalesOrder.CustomerID = Customer.CustomerID;
+
+CREATE VIEW packing_list
+AS SELECT SalesOrderLine.SalesOrderID, SalesOrderLine.ProductID, Product.Details, SalesOrderLine.Amount FROM SalesOrderLine
+INNER JOIN Product ON SalesOrderLine.ProductID=Product.ProductID;
+
+CREATE VIEW Invoice
+AS SELECT packing_list.SalesOrderID, packing_list.ProductID, packing_list.Details, packing_list.Amount, Product.SalesPrice, packing_list.Amount*Product.SalesPrice 'TotalLinePrice' FROM packing_list
+INNER JOIN Product ON packing_list.ProductID = Product.ProductID;
