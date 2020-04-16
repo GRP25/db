@@ -89,7 +89,7 @@ PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is num
 * Salgschef og salgsafdelingens medarbejdere og kunder
     * Pakings liste --- DONE ---
     * Salgordrer og addresser (Afsendelse) --- DONE ---
-    * Alle oplysninger til fakturaen 
+    * Alle oplysninger til fakturaen ---DONE---
 * Indkøbschef og indkøbsafdelingens medarbejdere
     * Supplierliste med info om kontaktpersoner
     * Oversigt over køb med info om kontaktperson og supplier
