@@ -7,6 +7,7 @@ import static SQL.DatabaseCtrl.*;
 
 
 public class Initiation {
+    /*
     public void createNewUserTable() {
         String sql = "CREATE TABLE IF NOT EXISTS user (\n" +
                 "   employee_id text PRIMARY KEY, \n" +
@@ -28,4 +29,5 @@ public class Initiation {
             System.out.println(e.getMessage());
         }
     }
+     */
 }

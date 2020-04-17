@@ -1,8 +1,15 @@
+--Admin Department
 CREATE USER 'CEO'@'%' IDENTIFIED BY '1234';
 CREATE USER 'Admin'@'%' IDENTIFIED BY '1234';
+
+--Sales Department
 CREATE USER 'CSO'@'%' IDENTIFIED BY '1234';
 CREATE USER 'Sales'@'%' IDENTIFIED BY '1234';
+
+--Purchases Department
 CREATE USER 'CPO'@'%' IDENTIFIED BY '1234';
 CREATE USER 'Purchases'@'%' IDENTIFIED BY '1234';
+
+--Login user 
 CREATE USER 'login'@'%' IDENTIFIED BY '1234';
 
