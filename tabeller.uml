@@ -159,4 +159,12 @@ Supplier }|--|| Employee
 TimeStamps }|--|| Employee
 TimeStamps }|--|| COTable
 
+Customer_seq |o--|| Customer
+Employee_seq |o--|| Employee
+Product_seq |o--|| Product
+PurchaseOrder_seq |o--|| PurchaseOrder
+SalesOrder_seq |o--|| SalesOrder
+Supplier_seq |o--|| Supplier
+
+
 @enduml
