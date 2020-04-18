@@ -79,17 +79,31 @@ public class Purchases {
         try {
             Connection conn = DatabaseCtrl.connect(user, pass);
 
+            // User types in the table values
             Scanner scanner = new Scanner(System.in);
-            String query1 = " ";
-            System.out.println("Insert sql update query");
-            query1 = scanner.nextLine();
+            String purchaseOrderID = " ";
+            String supplierID = " ";
+            String orderDate = " ";
+            String dateOfPayment = " ";
+            System.out.println("Type in existing PurchaseOrderID: ");
+            purchaseOrderID = scanner.nextLine();
+            System.out.println("Type in existing SupplierID: ");
+            supplierID = scanner.nextLine();
+            System.out.println("Type in OrderDate: ");
+            orderDate = scanner.nextLine();
+            System.out.println("Type in DateOfPayment: ");
+            dateOfPayment = scanner.nextLine();
 
+            // Table values inserted into fullQuery String
+            String fullQuery = "INSERT INTO PurchaseOrder (PurchaseOrderID, SupplierID, OrderDate, DateOfPayment) " +
+                    "VALUES ('"+purchaseOrderID+"', '"+supplierID+"', '"+orderDate+"', '"+dateOfPayment+"')";
+
+            // Sql command executed
             Statement stm = conn.createStatement();
-            stm.executeUpdate(query1);
+            stm.executeUpdate(fullQuery);
             conn.close();
 
         }
-
         catch (Exception e) {
             e.printStackTrace();
         }
