@@ -10,7 +10,7 @@ public class Purchases {
 
 
     /**
-     * Get data from PurchaseOrder table
+     * Get data from PurchaseOrder table and PurchaseOrderLine
      */
     public String getPurchase(String supplier_id, String user,
                               String pass) throws SQLException {
