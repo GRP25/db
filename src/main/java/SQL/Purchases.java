@@ -79,28 +79,43 @@ public class Purchases {
         try {
             Connection conn = DatabaseCtrl.connect(user, pass);
 
-            // User types in the table values
+            // User is prompted for the table values to be inserted
             Scanner scanner = new Scanner(System.in);
+
             String purchaseOrderID = " ";
+            String productID = " ";
+            String amount = " ";
+            String purchasePrice = " ";
             String supplierID = " ";
             String orderDate = " ";
             String dateOfPayment = " ";
-            System.out.println("Type in existing PurchaseOrderID: ");
+
+            System.out.println("Type in existing PurchaseOrderID: KO**** ");
             purchaseOrderID = scanner.nextLine();
-            System.out.println("Type in existing SupplierID: ");
+            System.out.println("Type in existing ProductID: P5**** ");
+            productID = scanner.nextLine();
+            System.out.println("Type in product amount: ");
+            amount = scanner.nextLine();
+            System.out.println("Type in total price of purchase in DKK: ");
+            purchasePrice = scanner.nextLine();
+            System.out.println("Type in existing SupplierID: ****** ");
             supplierID = scanner.nextLine();
-            System.out.println("Type in OrderDate: ");
+            System.out.println("Type in OrderDate: YYYYMMDD ");
             orderDate = scanner.nextLine();
-            System.out.println("Type in DateOfPayment: ");
+            System.out.println("Type in DateOfPayment: YYYYMMDD ");
             dateOfPayment = scanner.nextLine();
 
-            // Table values inserted into fullQuery String
-            String fullQuery = "INSERT INTO PurchaseOrder (PurchaseOrderID, SupplierID, OrderDate, DateOfPayment) " +
+            // Table values inserted into fullQuery Strings
+            String fullQuery1 = "INSERT INTO PurchaseOrderLine (PurchaseOrderID, ProductID, Amount, PurchasePrice) " +
+                    "VALUES ('"+purchaseOrderID+"', '"+productID+"', '"+amount+"', '"+purchasePrice+"')";
+
+            String fullQuery2 = "INSERT INTO PurchaseOrder (PurchaseOrderID, SupplierID, OrderDate, DateOfPayment) " +
                     "VALUES ('"+purchaseOrderID+"', '"+supplierID+"', '"+orderDate+"', '"+dateOfPayment+"')";
 
-            // Sql command executed
+            // Sql commands executed, hopefully.
             Statement stm = conn.createStatement();
-            stm.executeUpdate(fullQuery);
+            stm.executeUpdate(fullQuery1);
+            stm.executeUpdate(fullQuery2);
             conn.close();
 
         }
@@ -110,4 +125,3 @@ public class Purchases {
     }
 
 }
-
