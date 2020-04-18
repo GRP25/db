@@ -1,9 +1,7 @@
 package SQL;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.Scanner;
 
 public class Purchases {
     DatabaseCtrl db = new DatabaseCtrl();
@@ -63,8 +61,8 @@ public class Purchases {
                 }
             }
 
-
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             System.out.println();
         }
 
@@ -72,15 +70,30 @@ public class Purchases {
     }
 
 
-
-
-
-
-    /**
+    /*
      * Add data to PurchaseOrder table
      */
-//    public void addPurchase(){
-//
-//    }
+
+    public void addPurchase(String user, String pass) {
+
+        try {
+            Connection conn = DatabaseCtrl.connect(user, pass);
+
+            Scanner scanner = new Scanner(System.in);
+            String query1 = " ";
+            System.out.println("Insert sql update query");
+            query1 = scanner.nextLine();
+
+            Statement stm = conn.createStatement();
+            stm.executeUpdate(query1);
+            conn.close();
+
+        }
+
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
