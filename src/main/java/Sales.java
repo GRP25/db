@@ -34,7 +34,9 @@ public class Sales{
             case 1:
                 System.out.println("Input First Name, Last Name, Address, Postal code, City, Phone, Mail and CreditLimit");
                 try {
-                    addCustomer(input.nextLine(),input.nextLine(),input.nextLine(),input.nextLine(),input.nextLine(),input.nextLine(),input.nextLine(),input.nextLine());
+                    String FirstName = input.nextLine(), LastName = input.nextLine(), Address = input.nextLine(), PostalCode = input.nextLine(), City = input.nextLine(), Phone = input.nextLine();
+                    String Mail = input.nextLine(), CreditLimit = input.nextLine();
+                    addCustomer(FirstName,LastName,Address,PostalCode,City,Phone,Mail,CreditLimit);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -42,23 +44,26 @@ public class Sales{
             case 2:
                 System.out.println("Input Customer ID, Shippingdate, Invoice date and Payment date");
                 try {
-                    addSale(input.nextLine(),input.nextLine(),input.nextLine(),input.nextLine());
+                    String CustomerID = input.nextLine(), ShippingDate = input.nextLine(), InvoiceDate = input.nextLine(), PaymentDate = input.nextLine();
+                    addSale(CustomerID,ShippingDate,InvoiceDate,PaymentDate);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
                 break;
             case 3:
-                System.out.println("Input what you want to change and the ID what who you want to change");
+                System.out.println("Input what you want to change and the ID for who you want to change");
                 try {
-                    adminCustomer(input.nextLine(),input.nextLine());
+                    String Update = input.nextLine(), CustomerID = input.nextLine();
+                    adminCustomer(Update,CustomerID);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
                 break;
             case 4:
-                System.out.println("Input what you want to change and the ID what who you want to change");
+                System.out.println("Input what you want to change and the ID for who you want to change");
                 try {
-                    adminSale(input.nextLine(),input.nextLine());
+                    String Update = input.nextLine(), SalesOrderID = input.nextLine();
+                    adminSale(Update,SalesOrderID);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -66,7 +71,8 @@ public class Sales{
             case 5:
                 System.out.println("Input Sales Order ID, Product ID, Amount and Sales Price");
                 try {
-                    addProductToSale(input.nextLine(),input.nextLine(),input.nextLine(),input.nextLine());
+                    String SalesOrderID = input.nextLine(), ProductID = input.nextLine(), Amount = input.nextLine(), SalesPrice = input.nextLine();
+                    addProductToSale(SalesOrderID,ProductID,Amount,SalesPrice);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -74,7 +80,8 @@ public class Sales{
             case 6:
                 System.out.println("Input Sales Order ID");
                 try {
-                    packingList(input.nextLine());
+                    String SalesOrderID = input.nextLine();
+                    packingList(SalesOrderID);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -82,7 +89,8 @@ public class Sales{
             case 7:
                 System.out.println("Input Sales Order ID");
                 try {
-                    invoice(input.nextLine());
+                    String SalesOrderID = input.nextLine();
+                    invoice(SalesOrderID);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -90,7 +98,8 @@ public class Sales{
             case 8:
                 System.out.println("Input Customer ID");
                 try {
-                    dispatch(input.nextLine());
+                    String CustomerID = input.nextLine();
+                    dispatch(CustomerID);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -98,7 +107,8 @@ public class Sales{
             case 9:
                 System.out.println("Input Sales Order ID");
                 try {
-                    paymentReg(input.nextLine());
+                    String SalesOrderID = input.nextLine();
+                    paymentReg(SalesOrderID);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -106,6 +116,8 @@ public class Sales{
             default:
                 break;
         }
+        
+        input.close();
     }
 
     public void addCustomer(String FistName, String LastName, String Address, String PostalCode, String City, String Phone, String Mail, String CreditLimit) throws SQLException {
