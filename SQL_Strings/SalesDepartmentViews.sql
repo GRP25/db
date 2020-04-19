@@ -39,10 +39,12 @@ BEGIN
     SELECT ProductID, Details, Amount, SalesPrice, TotalLinePrice FROM Invoice WHERE SalesOrderID = ID;
 END $$
 
+##DROP PROCEDURE PaymentRegister;
+
 DELIMITER $$
 CREATE PROCEDURE PaymentRegister( ID CHAR(7))
 BEGIN
-	UPDATE SalesORder
+	UPDATE SalesOrder
     SET PaymentDate = curdate()
     WHERE SalesOrderID = ID;
 END$$
