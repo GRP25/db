@@ -20,3 +20,56 @@ VALUES ('KO0005', 'P50002', '50', '75000.00');
 
 INSERT INTO Supplier (SupplierID, SupplierName, City, Phone, ContactPerson)
 VALUES ('L00004', 'Bobob', 'Bobcity', 44448888, 'Bo');
+
+UPDATE Employee SET Address='Nudelvej 111', PostalCode='9000', City='Aalborg', 
+Phone='12344321', Salary='200000', HourlyWage='2000', Title='Salesman'
+WHERE EmployeeID = 'M00001';
+UPDATE Employee SET Address='Nudelvej 112', PostalCode='9000', City='Aalborg', 
+Phone='12344444', Salary='20055', HourlyWage='200', Title='Salesman'
+WHERE EmployeeID = 'M00002';
+UPDATE Employee SET Address='Nudelvej 113', PostalCode='9000', City='Aalborg', 
+Phone='12343333', Salary='44444', HourlyWage='444', Title='Salesman'
+WHERE EmployeeID = 'M00003';
+UPDATE Employee SET Address='Nudelvej 114', PostalCode='9000', City='Aalborg', 
+Phone='12342222', Salary='42424', HourlyWage='424', Title='Salesman'
+WHERE EmployeeID = 'M00004';
+UPDATE Employee SET Address='Nudelvej 115', PostalCode='9000', City='Aalborg', 
+Phone='12341111', Salary='50000', HourlyWage='450', Title='Salesman'
+WHERE EmployeeID = 'M00005';
+UPDATE Employee SET Address='Nudelvej 116', PostalCode='9000', City='Aalborg', 
+Phone='12340000', Salary='40000', HourlyWage='420', Title='Salesman'
+WHERE EmployeeID = 'M00006';
+UPDATE Employee SET Address='Nudelvej 117', PostalCode='9000', City='Aalborg', 
+Phone='12345555', Salary='42000', HourlyWage='440', Title='Salesman'
+WHERE EmployeeID = 'M00007';
+UPDATE Employee SET Address='Nudelvej 118', PostalCode='9000', City='Aalborg', 
+Phone='42424242', Salary='40000', HourlyWage='370', Title='Salesman'
+WHERE EmployeeID = 'M00008';
+UPDATE Employee SET Address='Nudelvej 119', PostalCode='9000', City='Aalborg', 
+Phone='24242424', Salary='20000', HourlyWage='200', Title='Salesman'
+WHERE EmployeeID = 'M00009';
+UPDATE Employee SET Address='Nudelvej 120', PostalCode='9000', City='Aalborg', 
+Phone='22221111', Salary='23232', HourlyWage='210', Title='Salesman'
+WHERE EmployeeID = 'M00010';
+UPDATE Employee SET Address='Hestevej 11', PostalCode='2800', City='Lyngby', 
+Phone='22454545', Salary='50000', HourlyWage='440', Title='Supplyfetchermachine'
+WHERE EmployeeID = 'M00011';
+UPDATE Employee SET AccountNo='11987654321' WHERE EmployeeID = 'M00011';
+
+INSERT INTO COTable (BossID, DepartmentName)
+VALUES ('M00001', 'Purchases');
+INSERT INTO COTable (BossID, DepartmentName)
+VALUES ('M00005', 'Sales');
+
+UPDATE TimeStamps SET BossID='M00001', Notice='Damn he is good'
+WHERE EmployeeID = 'p12345';
+INSERT INTO TimeStamps (EmployeeID, WorkDate, WorkHours, WorkStatus, Notice, BossID)
+VALUES ('M00011', '20200419', '5', 'pending', 'Big slack', 'M00001');
+
+UPDATE Supplier SET Address='Vej 2', PostalCode='2730'
+WHERE SupplierID = 'L00004';
+
+UPDATE PurchaseOrder SET DateOfReceipt='20200102'
+WHERE PurchaseOrderID = 'KO0003';
+UPDATE PurchaseOrder SET DateOfReceipt='20200102'
+WHERE PurchaseOrderID = 'KO0004';
