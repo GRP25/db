@@ -98,13 +98,13 @@ PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is num
     
 # Rapporten
 * Indledning
-* Database tabeller og Schemaer
+* Database tabeller og Schemaer - Thomas
 * ER diagram
-* EER diagram
+* EER diagram - Oliver
 * Database instans
-* Normalformer
+* Normalformer - Daniel
 * SQL Tabelmodefikationer
-* SQL Forespørgsler
-* SQL Programering
+* SQL Forespørgsler - Thomas
+* SQL Programering - Oliver
 * Bruger Profiler
 * Java Databseadgang
