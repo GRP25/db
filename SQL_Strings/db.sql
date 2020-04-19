@@ -54,6 +54,7 @@ CREATE TABLE Employee (
     City varchar(25) DEFAULT NULL,
     Phone varchar(8) DEFAULT NULL,
     Salary INT DEFAULT NULL,
+    HourlyWage INT DEFAULT NULL,
     Title varchar(25) DEFAULT NULL,
     Department varchar(10) NOT NULL,
     StartDate date NOT NULL,
@@ -176,6 +177,20 @@ CREATE TABLE TimeStamps (
     PRIMARY KEY (EmployeeID, WorkDate)
 ) ;
 
+CREATE TABLE payroll (
+	EmployeeID char(6),
+    FirstName varchar(25),
+    LastName varchar(25),
+    Department varchar(10),
+    Title varchar(25),
+    Salary int,
+    HourlyWage int,
+    HoursWorked int,
+    payout int,
+    status varchar(10),
+    PaymentDate date
+);
+
 
 -------- Triggers --------------
 DELIMITER $$
@@ -234,3 +249,43 @@ INNER JOIN Product ON SalesOrderLine.ProductID=Product.ProductID;
 CREATE VIEW Invoice
 AS SELECT packing_list.SalesOrderID, packing_list.ProductID, packing_list.Details, packing_list.Amount, Product.SalesPrice, packing_list.Amount*Product.SalesPrice 'TotalLinePrice' FROM packing_list
 INNER JOIN Product ON packing_list.ProductID = Product.ProductID;
+
+CREATE VIEW timesheet AS 
+SELECT EmployeeID, WorkDate, WorkHours, Notice, WorkStatus
+FROM TimeStamps;
+
+create view timesheet_all as
+select E.FirstName, E.LastName, T.WorkDate, T.WorkHours, T.WorkStatus, C.FirstName AS StatusFirstName, C.Lastname AS StatusLastName, Notice
+FROM Employee AS E, Employee AS C, TimeStamps AS T
+WHERE E.EmployeeID = T.EmployeeID AND T.BossID = C.EmployeeID 
+AND curdate() BETWEEN E.StartDate AND E.EndDate AND curdate() BETWEEN C.StartDate AND C.EndDate
+order by WorkDate; 
+
+CREATE VIEW MarketingCatalog AS
+SELECT ProductID, ProductType, ProductName, Details, SalesPrice AS Price
+FROM Product;
+
+
+-------- PROCEDURE ------------
+Delimiter //
+CREATE procedure PaySalary (in var_startDate date, in var_endDate date)
+	begin
+		DECLARE status char(5) default '00000';
+        DECLARE continue handler for sqlexception
+        BEGIN GET diagnostics condition 1 status = returned_sqlstate;
+	end;
+    start transaction;
+    create table E select EmployeeId, FirstName, LastName, Department, Salary, HourlyWage, AccountNo
+    FROM Employee WHERE StartDate <= var_startDate AND EndDate >= var_endDate;
+    create table T select SUM(WorkHours) AS Hours, WorkStatus
+    FROM TimeStamps WHERE WorkStatus = 'approved' AND WorkDate <= var_endDate GROUP BY EmployeeID;
+    INSERT payroll  SELECT EmployeeID, FirstName, LastName, Department, Title,
+    COALESCE(Salary,0) AS Salary, COALESCE(HourlyWage,0) AS HourlyWage,
+    COALESCE(Hours,0) AS HoursWorked, Salary + COALESCE(Hours,0)*HourlyWage AS Payout, AccountNo, curdate() AS PaymentDate
+    FROM E NATURAL LEFT OUTER JOIN T GROUP BY Department;
+    UPDATE TimeStamps SET WorkStatus = 'payed' WHERE WorkStatus = 'approved' AND WorkDate <= var_endDate;
+    DROP TABLE E;
+    DROP TABLE T;
+    END//
+    commit transaction;
+Delimiter ;
