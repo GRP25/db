@@ -95,3 +95,16 @@ PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is num
     * Supplierliste med info om kontaktpersoner
     * Oversigt over køb med info om kontaktperson og supplier
     * Købsordrer og addresser (Afsendelse)
+    
+# Rapporten
+* Indledning
+* Database tabeller og Schemaer - Thomas
+* ER diagram
+* EER diagram - Oliver
+* Database instans - Andrey
+* Normalformer - Daniel
+* SQL Tabelmodefikationer - Mohamad
+* SQL Forespørgsler - Thomas
+* SQL Programering - Oliver
+* Bruger Profiler
+* Java Databseadgang
