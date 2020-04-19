@@ -13,10 +13,14 @@ public class Main {
         Connection conn;
         switch (returns[0]){
             case "Admin":
-                if (returns[1].equals("Fulltime") || returns.equals("Parttime"))
+                if (returns[1].equals("Fulltime") || returns.equals("Parttime")) {
                     conn = SQL.DatabaseCtrl.connect("Admin","1234");
-                else if (returns[1].equals("Boss"))
+                    new Admin(conn, userID, "Admin");
+                }
+                else if (returns[1].equals("Boss")) {
                     conn = SQL.DatabaseCtrl.connect("CEO","1234");
+                    new Admin(conn, userID, "Admin");
+                }
                 break;
             case "Sales":
                 if (returns[1].equals("Fulltime") || returns.equals("Parttime"))
