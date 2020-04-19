@@ -1,13 +1,13 @@
+package SQL;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import static SQL.DatabaseCtrl.connect;
 
-/*
-public class Employees {
-
+public class TimeSheet {
+    /*
     private int getLastUserID() {
         String sql = "SELECT ?";
 
@@ -21,9 +21,10 @@ public class Employees {
         }
         return id;
     }
+    */
 
-    public void create(parameter) {
-        String sql = "INSERT ?";
+    public void createTimeSheet(String username, int hours, long date, String notice) {
+        String sql = "INSERT INTO timesheet (EmployeeID, WorkDate, WorkHours, Notice) VALUES (?,?,?,?)";
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -34,5 +35,4 @@ public class Employees {
         }
     }
 }
-
-*/
+}

@@ -6,7 +6,7 @@ import java.sql.Connection;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Input employee ID to login:");
-        String userID = "M00036"; //Dette er Malte
+        String userID = "M00037"; //Dette er Malte
         Login l = new Login();
         String[] returns = l.login(userID);
         System.out.println(returns);

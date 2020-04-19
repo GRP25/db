@@ -11,7 +11,7 @@ public class Login {
         String sql       = "SELECT * FROM login WHERE EmployeeID = ?";
         String[] returns = new String[2];
 
-        try (Connection conn = connect("cdio","HmDjHb0b4123");
+        try (Connection conn = connect("login","1234");
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, employeeID);
             ResultSet rs = pstmt.executeQuery();
