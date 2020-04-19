@@ -39,17 +39,38 @@ public class Sales{
         pstm.executeQuery();
     }
 
-    public void adminCustomer(){
-        String sql = "SELECT * FROM Customer";
+    public void adminCustomer(String Update, String CustomerID) throws SQLException {
+        String sql = "UPDATE Customer SET ?"+
+        "WHERE CustomerID = ?";
+
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1,Update);
+        pstm.setString(2,CustomerID);
+
+        pstm.executeQuery();
 
     }
 
-    public void adminSale(){
+    public void adminSale(String Update, String SalesOrderID) throws SQLException {
+        String sql = "UPDATE SalesOrderSET ?" +
+                "WHERE SalesOrderID = ?";
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1,Update);
+        pstm.setString(2,SalesOrderID);
 
+        pstm.executeQuery();
     }
 
-    public void addProductToSale(){
+    public void addProductToSale(String SalesOrderID, String ProductID, String Amount, String SalesPrice) throws SQLException {
+        String sql = "INSERT INTO SalesOrderLine (SalesOrderID, ProductID, Amount, SalesPrice)" +
+                "VALUES (?, ?, ?, ?)";
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1,SalesOrderID);
+        pstm.setString(2,ProductID);
+        pstm.setString(3,Amount);
+        pstm.setString(4,SalesPrice);
 
+        pstm.executeQuery();
     }
 
     public void packingList(String SalesOrderID) throws SQLException {
