@@ -101,7 +101,7 @@ FOR EACH ROW
 BEGIN
 	INSERT INTO SalesOrder_seq VALUES (NULL);
 	SET NEW.SalesOrderID = CONCAT ('SO', LPAD(LAST_INSERT_ID(), 5, '0'));
-    SET NEW.OrderData = curdate();
+    SET NEW.OrderDate = curdate();
 END $$
 
 CREATE TRIGGER Supplier_ID_Insert BEFORE INSERT ON Supplier 
