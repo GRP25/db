@@ -102,7 +102,7 @@ PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is num
 * ER diagram
 * EER diagram - Oliver
 * Database instans - Andrey
-* Normalformer - Daniel
+* Normalformer - Martin
 * SQL Tabelmodefikationer - Mohamad
 * SQL Forespørgsler - Thomas
 * SQL Programering - Oliver
