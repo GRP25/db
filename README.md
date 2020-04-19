@@ -3,6 +3,8 @@
 * Grant View til database brugerne
 * Færdigør menu (java)
 * Måske indsætte alle funktionerne i et String array og skrive dem ud med et for loop?
+* Assign de sidste punkter i rapporten
+* Test
 * 
 
 # Brainstorm
