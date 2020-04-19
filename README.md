@@ -97,7 +97,7 @@ PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is num
     * Købsordrer og addresser (Afsendelse)
     
 # Rapporten
-* Indledning
+* Indledning - Thomas
 * Database tabeller og Schemaer - Thomas
 * ER diagram
 * EER diagram - Oliver
