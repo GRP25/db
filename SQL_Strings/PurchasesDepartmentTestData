@@ -73,3 +73,10 @@ UPDATE PurchaseOrder SET DateOfReceipt='20200102'
 WHERE PurchaseOrderID = 'KO0003';
 UPDATE PurchaseOrder SET DateOfReceipt='20200102'
 WHERE PurchaseOrderID = 'KO0004';
+
+UPDATE PurchaseOrderLine SET PurchasePrice='1000000'
+WHERE PurchaseOrderID = 'KO0003';
+UPDATE PurchaseOrderLine SET PurchasePrice='1000000'
+WHERE PurchaseOrderID = 'KO0004';
+UPDATE PurchaseOrderLine SET PurchasePrice='1000000'
+WHERE PurchaseOrderID = 'KO0005';
