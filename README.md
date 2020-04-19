@@ -1,12 +1,9 @@
-## Planer for imorgen (18 march 2020)
-* Finish Requrements for application
-* Finish Database Scheme
-* List over different users and there access
-* Usecases in the database
-
-<span style="text-decoration: underline">underline</span>
-<u>underline</u>
-_underline_
+## Planer for Mandag (20 april 2020)
+* Opdatere db.sql
+* Grant View til database brugerne
+* Færdigør menu (java)
+* Måske indsætte alle funktionerne i et String array og skrive dem ud med et for loop?
+* 
 
 # Brainstorm
 
@@ -97,12 +94,12 @@ PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is num
     * Købsordrer og addresser (Afsendelse)
     
 # Rapporten
-* Indledning
+* Indledning - Thomas
 * Database tabeller og Schemaer - Thomas
-* ER diagram
+* ER diagram - Andrey
 * EER diagram - Oliver
 * Database instans - Andrey
-* Normalformer - Daniel
+* Normalformer - Martin
 * SQL Tabelmodefikationer - Mohamad
 * SQL Forespørgsler - Thomas
 * SQL Programering - Oliver
