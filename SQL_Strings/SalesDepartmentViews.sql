@@ -39,6 +39,14 @@ BEGIN
     SELECT ProductID, Details, Amount, SalesPrice, TotalLinePrice FROM Invoice WHERE SalesOrderID = ID;
 END $$
 
+DELIMITER $$
+CREATE PROCEDURE PaymentRegister( ID CHAR(7))
+BEGIN
+	UPDATE SalesORder
+    SET PaymentDate = curdate()
+    WHERE SalesOrderID = ID;
+END$$
+
 call SendOrder('SO00020');
 
 Select * From SalesOrder

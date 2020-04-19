@@ -25,6 +25,9 @@ VALUES ('SO60003', 'P50001', 5, 1.00);
 INSERT INTO SalesOrder(CustomerID,ShippingDate,InvoiceDate,PaymentDate)
 VALUES('K00001','2020-01-06','2020-01-06','2020-01-06');
 
+INSERT INTO SalesOrder(CustomerID)
+VALUES('K00030');
+
 SELECT * FROM SalesOrder;
 
 SELECT * FROM Customer;

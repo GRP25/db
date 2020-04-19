@@ -191,3 +191,5 @@ WHERE SalesOrderID = 'SO60002';  /* Enter SalesOrderID */
 
 
 SELECT * FROM SalesOrder
+
+SELECT * FROM SalesOrderLine;

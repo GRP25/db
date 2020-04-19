@@ -52,7 +52,7 @@ public class Sales{
     }
 
     public void adminSale(String Update, String SalesOrderID) throws SQLException {
-        String sql = "UPDATE SalesOrderSET ?" +
+        String sql = "UPDATE SalesOrder SET ?" +
                 "WHERE SalesOrderID = ?";
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1,Update);
@@ -127,8 +127,10 @@ public class Sales{
         }
     }
 
-    public void paymentReg(){
-
+    public void paymentReg(String SalesOrderID) throws SQLException {
+        String sql = "CALL PaymentRegister (?)";
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        
     }
 
 }
