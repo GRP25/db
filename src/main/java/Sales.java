@@ -1,14 +1,111 @@
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.Scanner;
 
 public class Sales{
 
     Connection conn;
+    String title;
+    String EmployeeID;
 
-    public Sales(Connection conn) {
+    public Sales(Connection conn, String EmployeeID, String title) {
         this.conn = conn;
+        this.title = title;
+        this.EmployeeID = EmployeeID;
+
+        SalesMenu();
+    }
+
+    public void SalesMenu(){
+        System.out.println("Select the menu you wanna access");
+        System.out.println("1 Add a Customer");
+        System.out.println("2 Add a Sales Order");
+        System.out.println("3 Administrate Customer");
+        System.out.println("4 Administrate Sales Order");
+        System.out.println("5 Add a product to Sales Order");
+        System.out.println("6 View packing list");
+        System.out.println("7 View invoice");
+        System.out.println("8 View dispatch");
+        System.out.println("9 Add Payment register");
+
+        Scanner input = new Scanner(System.in);
+        int choice = input.nextInt();
+
+        switch(choice){
+            case 1:
+                System.out.println("Input First Name, Last Name, Address, Postal code, City, Phone, Mail and CreditLimit");
+                try {
+                    addCustomer(input.nextLine(),input.nextLine(),input.nextLine(),input.nextLine(),input.nextLine(),input.nextLine(),input.nextLine(),input.nextLine());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 2:
+                System.out.println("Input Customer ID, Shippingdate, Invoice date and Payment date");
+                try {
+                    addSale(input.nextLine(),input.nextLine(),input.nextLine(),input.nextLine());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 3:
+                System.out.println("Input what you want to change and the ID what who you want to change");
+                try {
+                    adminCustomer(input.nextLine(),input.nextLine());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 4:
+                System.out.println("Input what you want to change and the ID what who you want to change");
+                try {
+                    adminSale(input.nextLine(),input.nextLine());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 5:
+                System.out.println("Input Sales Order ID, Product ID, Amount and Sales Price");
+                try {
+                    addProductToSale(input.nextLine(),input.nextLine(),input.nextLine(),input.nextLine());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 6:
+                System.out.println("Input Sales Order ID");
+                try {
+                    packingList(input.nextLine());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 7:
+                System.out.println("Input Sales Order ID");
+                try {
+                    invoice(input.nextLine());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 8:
+                System.out.println("Input Customer ID");
+                try {
+                    dispatch(input.nextLine());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 9:
+                System.out.println("Input Sales Order ID");
+                try {
+                    paymentReg(input.nextLine());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     public void addCustomer(String FistName, String LastName, String Address, String PostalCode, String City, String Phone, String Mail, String CreditLimit) throws SQLException {
@@ -94,7 +191,7 @@ public class Sales{
     public void invoice(String SalesOrderID) throws SQLException {
 
         String sql = "CALL sendOrder(?) ";
-        PreparedStatement pstm = conn.prepareStatement(sql);
+        CallableStatement pstm = conn.prepareCall(sql);
         pstm.setString(1,SalesOrderID);
         ResultSet rs = pstm.executeQuery();
 
@@ -129,8 +226,10 @@ public class Sales{
 
     public void paymentReg(String SalesOrderID) throws SQLException {
         String sql = "CALL PaymentRegister (?)";
-        PreparedStatement pstm = conn.prepareStatement(sql);
-        
+        CallableStatement pstm = conn.prepareCall(sql);
+        pstm.setString(1,SalesOrderID);
+
+        pstm.executeQuery();
     }
 
 }
