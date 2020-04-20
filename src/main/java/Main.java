@@ -1,5 +1,7 @@
 import SQL.DatabaseCtrl;
 import SQL.Login;
+import SQL.Purchases;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,10 +39,13 @@ public class Main {
                 }
                 break;
             case "Purchases":
-                if (returns[1].equals("Fulltime") || returns.equals("Parttime"))
+                if (returns[1].equals("Fulltime") || returns.equals("Parttime")){
                     conn = SQL.DatabaseCtrl.connect("Purchases","1234");
-                else if (returns[1].equals("Boss"))
+                        new Purchases(conn);
+                } else if (returns[1].equals("Boss")){
                     conn = SQL.DatabaseCtrl.connect("CPO","1234");
+                    new Purchases(conn);
+                }
                 break;
             default:
                 break;

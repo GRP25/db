@@ -79,21 +79,22 @@ public class Admin {
     }
 
     public void AddEmployee() {
-        String sql = "INSERT INTO Employee(FirstName, LastName, Address, PostalCode, City" +
-                "Phone, Salary, HourlyWage, Title, Department, StartDate, AcountNo" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Employee(FirstName, LastName, Address, PostalCode, City, " +
+                "Phone, Salary, HourlyWage, Title, Department, StartDate, EndDate, AcountNo)" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         System.out.println("Please input the following, seperated by commas:");
-        System.out.println("Firstname, Lastname, Address, Postalcode, City, Phonenumber, Salary, Job title, Department, StartDate and account number");
-        String input = s.nextLine();
+        System.out.println("Firstname, Lastname, Address, Postalcode, City, Phonenumber, Salary, HourlyWage, Job title, Department, StartDate, EndDate and account number");
+        String input = s.next();
 
+        inputParse = new String[12];
         inputParse = input.split(",");
 
 
         try {
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            for (int i = 1; i <= 11; i++ ) {
-                if (i == 8 || i == 9 || i == 11) {
+            for (int i = 1; i <= 13; i++ ) {
+                if (i == 7 || i == 8 || i == 13) {
                     pstmt.setInt(i, Integer.parseInt(inputParse[i-1]));
                 } else {
                     pstmt.setString(i, inputParse[i-1]);
