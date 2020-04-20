@@ -40,7 +40,7 @@ public class Sales{
                     /*String FirstName = input.nextLine(), LastName = input.nextLine(), Address = input.nextLine(), PostalCode = input.nextLine(), City = input.nextLine(), Phone = input.nextLine();
                     String Mail = input.nextLine(), CreditLimit = input.nextLine();
                     addCustomer(FirstName,LastName,Address,PostalCode,City,Phone,Mail,CreditLimit);*/
-                    addCustomer("Thomas","Hohnen","Vejnummer","3080","Nørrebro","123456789","something@something.com","20");
+                    addCustomer("Thomas","Hohnen","Vejnummer","3080","Nørrebro","12345678","something@something.com","20");
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -48,8 +48,8 @@ public class Sales{
             case 2:
                 System.out.println("Input Customer ID, Shippingdate, Invoice date and Payment date");
                 try {
-                    String CustomerID = input.nextLine(), ShippingDate = input.nextLine(), InvoiceDate = input.nextLine(), PaymentDate = input.nextLine();
-                    addSale(CustomerID,ShippingDate,InvoiceDate,PaymentDate);
+                    String CustomerID = input.next(), OrderDate = input.next(), ShippingDate = input.next(), InvoiceDate = input.next(), PaymentDate = input.next();
+                    addSale(CustomerID,OrderDate,ShippingDate,InvoiceDate,PaymentDate);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -57,7 +57,7 @@ public class Sales{
             case 3:
                 System.out.println("Input what you want to change and the ID for who you want to change");
                 try {
-                    String Update = input.nextLine(), CustomerID = input.nextLine();
+                    String Update = input.next(), CustomerID = input.next();
                     adminCustomer(Update,CustomerID);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -66,7 +66,7 @@ public class Sales{
             case 4:
                 System.out.println("Input what you want to change and the ID for who you want to change");
                 try {
-                    String Update = input.nextLine(), SalesOrderID = input.nextLine();
+                    String Update = input.next(), SalesOrderID = input.next();
                     adminSale(Update,SalesOrderID);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -75,8 +75,8 @@ public class Sales{
             case 5:
                 System.out.println("Input Sales Order ID, Product ID, Amount and Sales Price");
                 try {
-                    String SalesOrderID = input.nextLine(), ProductID = input.nextLine(), Amount = input.nextLine(), SalesPrice = input.nextLine();
-                    addProductToSale(SalesOrderID,ProductID,Amount,SalesPrice);
+                    String SalesOrderID = input.next(), ProductID = input.next(), Amount = input.next();
+                    addProductToSale(SalesOrderID,ProductID,Amount);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -84,7 +84,7 @@ public class Sales{
             case 6:
                 System.out.println("Input Sales Order ID");
                 try {
-                    String SalesOrderID = input.nextLine();
+                    String SalesOrderID = input.next();
                     packingList(SalesOrderID);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -93,7 +93,7 @@ public class Sales{
             case 7:
                 System.out.println("Input Sales Order ID");
                 try {
-                    String SalesOrderID = input.nextLine();
+                    String SalesOrderID = input.next();
                     invoice(SalesOrderID);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -102,7 +102,7 @@ public class Sales{
             case 8:
                 System.out.println("Input Customer ID");
                 try {
-                    String CustomerID = input.nextLine();
+                    String CustomerID = input.next();
                     dispatch(CustomerID);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -111,7 +111,7 @@ public class Sales{
             case 9:
                 System.out.println("Input Sales Order ID");
                 try {
-                    String SalesOrderID = input.nextLine();
+                    String SalesOrderID = input.next();
                     paymentReg(SalesOrderID);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -120,7 +120,7 @@ public class Sales{
             case 10:
                 System.out.println("Input EmployeeID");
                 try {
-                    String EmployeeID = input.nextLine();
+                    String EmployeeID = input.next();
                     timeSheetView(EmployeeID);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -129,7 +129,7 @@ public class Sales{
             case 11:
                 System.out.println("Input Employee ID, Work Date, Work Hours and Notice");
                 try {
-                    String EmployeeID = input.nextLine(), WorksDate = input.nextLine(), WorkHours = input.nextLine(), Notice = input.nextLine();
+                    String EmployeeID = input.next(), WorksDate = input.next(), WorkHours = input.next(), Notice = input.next();
                     timeSheetInsert(EmployeeID,WorksDate,WorkHours,Notice);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -166,48 +166,51 @@ public class Sales{
         pstm.executeQuery();
     }
 
-    public void addSale(String CustomerID, String ShippingDate, String InvoiceDate, String PaymentDate) throws SQLException {
-        String sql = "INSERT INTO SalesOrder(CustomerID, ShippingDate, InvoiceDate, PaymentDate)" +
-                "VALUES(?, ?, ?, ?)";
+    public void addSale(String CustomerID, String OrderDate, String ShippingDate, String InvoiceDate, String PaymentDate) throws SQLException {
+        String sql = "INSERT INTO SalesOrder(CustomerID, Orderdate, ShippingDate, InvoiceDate, PaymentDate)" +
+                "VALUES(?, ?, ?, ?, ?)";
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1,CustomerID);
-        pstm.setString(2,ShippingDate);
-        pstm.setString(3,InvoiceDate);
-        pstm.setString(4,PaymentDate);
+        pstm.setString(2,OrderDate);
+        pstm.setString(3,ShippingDate);
+        pstm.setString(4,InvoiceDate);
+        pstm.setString(5,PaymentDate);
 
         pstm.executeQuery();
     }
 
     public void adminCustomer(String Update, String CustomerID) throws SQLException {
-        String sql = "UPDATE Customer SET ?"+
-        "WHERE CustomerID = ?";
+        String sql = "UPDATE Customer SET ";
+        sql += Update;
+        sql +=" WHERE CustomerID = ?";
 
         PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setString(1,Update);
-        pstm.setString(2,CustomerID);
+        pstm.setString(1,CustomerID);
+
+        System.out.println(pstm);
 
         pstm.executeQuery();
 
     }
 
     public void adminSale(String Update, String SalesOrderID) throws SQLException {
-        String sql = "UPDATE SalesOrder SET ?" +
-                "WHERE SalesOrderID = ?";
+        String sql = "UPDATE SalesOrder SET ";
+        sql += Update;
+        sql +=" WHERE SalesOrderID = ?";
+
         PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setString(1,Update);
-        pstm.setString(2,SalesOrderID);
+        pstm.setString(1,SalesOrderID);
 
         pstm.executeQuery();
     }
 
-    public void addProductToSale(String SalesOrderID, String ProductID, String Amount, String SalesPrice) throws SQLException {
-        String sql = "INSERT INTO SalesOrderLine (SalesOrderID, ProductID, Amount, SalesPrice)" +
+    public void addProductToSale(String SalesOrderID, String ProductID, String Amount) throws SQLException {
+        String sql = "INSERT INTO SalesOrderLine (SalesOrderID, ProductID, Amount)" +
                 "VALUES (?, ?, ?, ?)";
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1,SalesOrderID);
         pstm.setString(2,ProductID);
         pstm.setString(3,Amount);
-        pstm.setString(4,SalesPrice);
 
         pstm.executeQuery();
     }
