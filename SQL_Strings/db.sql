@@ -295,7 +295,7 @@ CREATE procedure PaySalary (in var_startDate date, in var_endDate date)
 Delimiter ;
 
 DELIMITER $$
-CREATE PROCEDURE SendOrder( ID CHAR(7))
+CREATE PROCEDURE SendOrder( IN ID CHAR(7))
 BEGIN 
 	UPDATE SalesOrder
     SET InvoiceDate = curdate(), ShippingDate = curdate()
@@ -305,7 +305,7 @@ BEGIN
 END $$
 
 DELIMITER $$
-CREATE PROCEDURE PaymentRegister( ID CHAR(7))
+CREATE PROCEDURE PaymentRegister( IN ID CHAR(7))
 BEGIN
 	UPDATE SalesOrder
     SET PaymentDate = curdate()
