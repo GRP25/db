@@ -28,6 +28,7 @@ public class Main {
             case "Sales":
                 if (returns[1].equals("Fulltime") || returns.equals("Parttime")) {
                     conn = SQL.DatabaseCtrl.connect("Sales", "1234");
+
                     new Sales(conn, userID, "CSO");
                 }
                 else if (returns[1].equals("Boss")) {

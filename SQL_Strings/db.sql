@@ -283,6 +283,7 @@ INNER JOIN Employee AS e ON e.EmployeeID = t.EmployeeID
 
 GRANT ALL ON timesheet_boss TO 'CSO'@'%';
 GRANT ALL ON timesheet_boss TO 'CPO'@'%';
+GRANT ALL ON timesheet_boss TO 'CEO'@'%';
 ----
 
 ---Vi ved ikke hvornår vi bruger denne
@@ -374,6 +375,10 @@ FROM Employee AS E, Employee AS C, TimeStamps AS T
 WHERE E.EmployeeID = T.EmployeeID AND T.BossID = C.EmployeeID 
 AND curdate() BETWEEN E.StartDate AND E.EndDate AND curdate() BETWEEN C.StartDate AND C.EndDate
 order by WorkDate; 
+
+GRANT ALL ON timesheet_all TO 'Admin'@'%';
+GRANT ALL ON timesheet_all TO 'CEO'@'%';
+----
 
 CREATE VIEW MarketingCatalog AS
 SELECT ProductID, ProductType, ProductName, Details, SalesPrice AS Price
