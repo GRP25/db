@@ -411,6 +411,8 @@ BEGIN
    WHERE WorkStatus = 'approved' AND WorkDate <= var_endDate;
     END //
 
+Delimeter ;
+
 
 
 DELIMITER $$
