@@ -396,19 +396,18 @@ CREATE procedure PaySalary (in var_startDate date, in var_endDate date)
         BEGIN GET diagnostics condition 1 status = returned_sqlstate;
 	end;
     start transaction;
-    create table E select EmployeeId, FirstName, LastName, Department, Salary, HourlyWage, AccountNo
-    FROM Employee WHERE StartDate <= var_startDate AND EndDate >= var_endDate;
-    create table T select SUM(WorkHours) AS Hours, WorkStatus
+    create table E select EmployeeId, FirstName, LastName, Department, Title, Salary, HourlyWage, AcountNo
+    FROM Employee WHERE StartDate <= var_startDate AND EndDate >= var_endDate; 
+    create table T select EmployeeID, SUM(WorkHours) AS Hours, WorkStatus
     FROM TimeStamps WHERE WorkStatus = 'approved' AND WorkDate <= var_endDate GROUP BY EmployeeID;
-    INSERT payroll  SELECT EmployeeID, FirstName, LastName, Department, Title,
-    COALESCE(Salary,0) AS Salary, COALESCE(HourlyWage,0) AS HourlyWage,
-    COALESCE(Hours,0) AS HoursWorked, Salary + COALESCE(Hours,0)*HourlyWage AS Payout, AccountNo, curdate() AS PaymentDate
-    FROM E NATURAL LEFT OUTER JOIN T GROUP BY Department;
+    INSERT payroll  SELECT E.EmployeeID, E.FirstName, E.LastName, E.Department, E.Title,
+    COALESCE(E.Salary,0) AS Salary, COALESCE(E.HourlyWage,0) AS HourlyWage,
+    COALESCE(T.Hours,0) AS HoursWorked, E.Salary + COALESCE(T.Hours,0)*E.HourlyWage AS Payout, T.WorkStatus as PaymentStatus, E.AcountNo as Acount, curdate() AS PaymentDate
+    FROM E AS E, T AS T WHERE E.EmployeeID = T.EmployeeID;
     UPDATE TimeStamps SET WorkStatus = 'payed' WHERE WorkStatus = 'approved' AND WorkDate <= var_endDate;
     DROP TABLE E;
     DROP TABLE T;
     END//
-    commit transaction;
 Delimiter ;
 
 Delimiter //
