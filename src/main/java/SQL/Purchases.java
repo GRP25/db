@@ -224,9 +224,9 @@ class purchaseMain{
             case 2:
                 System.out.println("Select from the menu below and " +
                                     "type the number of selecting: " +
-                                    "1. Get a specific row by using purchaseOrderID"+
-                                    "2. Get data from PurchaseOrder table" +
-                                    "3. Get data from PurchaseOrderLine table"   );
+                                    "\n1. Get a specific row by using purchaseOrderID"+
+                                    "\n2. Get data from PurchaseOrder table" +
+                                    "\n3. Get data from PurchaseOrderLine table"   );
                 int select1 = sa.nextInt();
                 if(select1 == 1){
                     System.out.print("Enter purchaseOrderID: ");
