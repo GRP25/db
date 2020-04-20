@@ -16,7 +16,7 @@ public class Sales{
     }
 
     public void SalesMenu(){
-        System.out.println("Select the menu you wanna access");
+        System.out.println("Select the action you want to perform");
         System.out.println("1 Add a Customer");
         System.out.println("2 Add a Sales Order");
         System.out.println("3 Administrate Customer");
@@ -26,6 +26,9 @@ public class Sales{
         System.out.println("7 View invoice");
         System.out.println("8 View dispatch");
         System.out.println("9 Add Payment register");
+        System.out.println("10 Add view Time Sheet");
+        System.out.println("11 Inset into time sheet");
+        System.out.println("12 View all time sheets for sales department");
 
         Scanner input = new Scanner(System.in);
         int choice = input.nextInt();
@@ -113,10 +116,35 @@ public class Sales{
                     e.printStackTrace();
                 }
                 break;
+            case 10:
+                System.out.println("Input EmployeeID");
+                try {
+                    String EmployeeID = input.nextLine();
+                    timeSheetView(EmployeeID);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 11:
+                System.out.println("Input Employee ID, Work Date, Work Hours and Notice");
+                try {
+                    String EmployeeID = input.nextLine(), WorksDate = input.nextLine(), WorkHours = input.nextLine(), Notice = input.nextLine();
+                    timeSheetInsert(EmployeeID,WorksDate,WorkHours,Notice);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 12:
+                try {
+                    timeSheetViewSalesDept();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
             default:
                 break;
         }
-        
+
         input.close();
     }
 
@@ -193,7 +221,7 @@ public class Sales{
 
             String sID = rs.getString("SalesOrderID");
             String pID = rs.getString("ProductID");
-            String detail = rs.getString("Details");
+            String detail = rs.getString("ProductName");
             String amout = rs.getString("Amount");
 
             System.out.format("%s, %s, %s, %s\n", sID , pID, detail, amout);
@@ -244,4 +272,37 @@ public class Sales{
         pstm.executeQuery();
     }
 
+    public void timeSheetView(String EmployeeID) throws SQLException {
+        String sql = "SELECT * FROM timesheet WHERE EmployeeID = ?";
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1,EmployeeID);
+        ResultSet rs = pstm.executeQuery();
+
+        while(rs.next()){
+            String eID = rs.getString("EmployeeID");
+            String workDate = rs.getString("WorkDate");
+            String workHours = rs.getString("WorkHours");
+            String notice = rs.getString("Notice");
+
+            System.out.format("&s, &s, &s, &s, \n", eID, workDate, workHours, notice);
+        }
+    }
+
+    public void timeSheetInsert(String EmployeeID, String WorkDate, String WorkHours, String Notice) throws SQLException {
+        String sql = "INSERT INTO timesheet (EmployeeID, WorkDate, WorkHours, Notice)" +
+                "VALUES (?, ?, ?, ?)";
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1,EmployeeID);
+        pstm.setString(2,WorkDate);
+        pstm.setString(3,WorkHours);
+        pstm.setString(4,Notice);
+
+        pstm.executeQuery();
+    }
+
+    public void timeSheetViewSalesDept() throws SQLException {
+        String sql = "SELECT * FROM timesheet_boos WHERE Department = Sales";
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.executeQuery();
+    }
 }
