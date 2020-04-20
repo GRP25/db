@@ -1,8 +1,25 @@
+<<<<<<< HEAD
+/*
+CREATE DATABASE test01;
+USE test01;
+
+DROP TABLE IF EXISTS Empolyee;
+DROP TABLE IF EXISTS Department;
+DROP TABLE IF EXISTS Customer;
+DROP TABLE IF EXISTS Product;
+DROP TABLE IF EXISTS PurchaseOrder;
+DROP TABLE IF EXISTS PurchaseOrderLine;
+DROP TABLE IF EXISTS SalesOrder;
+DROP TABLE IF EXISTS SalesOrderLine;
+DROP TABLE IF EXISTS Supplier;
+DROP TABLE IF EXISTS TimeStamps;
+*/
+
+=======
+/*DROP DATABASE dbprojekt;*/
 CREATE DATABASE dbprojekt;
 USE dbprojekt;
-
-GRANT CREATE USER           TO 'Admin'@'%';
-GRANT CREATE USER           TO 'CEO'@'%';
+>>>>>>> ab325b24860731411c86eac6ba9cca2be89dad2b
 
 /*Sequence Tables*/
 CREATE TABLE Customer_seq (
@@ -29,16 +46,12 @@ CREATE TABLE Supplier_seq (
 	SalesOrder_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
 );
 
-
-/*Tables*/ 
 CREATE TABLE Department (
     DepartmentName varchar(10) NOT NULL,
     PRIMARY KEY (DepartmentName)
 );
 
-GRANT ALL ON `Department`   TO 'CEO'@'%';
-----
-
+/*Tables*/ 
 CREATE TABLE Employee (
     EmployeeID char(6),
     FirstName varchar(25) NOT NULL,
@@ -58,11 +71,6 @@ CREATE TABLE Employee (
     PRIMARY KEY (EmployeeID, EndDate)
 ) ;
 
-GRANT ALL ON `Employee`     TO 'CEO'@'%';
-GRANT ALL ON `Employee`     TO 'Admin'@'%';
-----
-
-
 CREATE TABLE COTable(
 	BossID char(6) DEFAULT NULL,
     DepartmentName varchar(10) NOT NULL,
@@ -70,9 +78,6 @@ CREATE TABLE COTable(
     FOREIGN KEY (DepartmentName) REFERENCES Department(DepartmentName),
     UNIQUE(BossID,DepartmentName) 
 ) ;
-
-GRANT ALL ON `COTable`      TO 'CEO'@'%';
-------
 
 CREATE TABLE Customer (
     CustomerID char(6) NOT NULL,
@@ -87,10 +92,6 @@ CREATE TABLE Customer (
     PRIMARY KEY (CustomerID)
 );
 
-GRANT ALL ON Customers TO 'Sales'@'%';
-GRANT ALL ON Customers TO 'CSO'@'%';
------
-
 
 
 CREATE TABLE ProductType (
@@ -100,11 +101,6 @@ CREATE TABLE ProductType (
     Image varchar(25) DEFAULT NULL,
     PRIMARY KEY (ProductType)
 );
-GRANT ALL ON `ProductType`  TO 'Admin'@'%';
-GRANT ALL ON `ProductType`  TO 'CEO'@'%';
-GRANT ALL ON `ProductType`  TO 'CPO'@'%';
-GRANT ALL ON `ProductType`  TO 'Purchases'@'%';
-----
 
 CREATE TABLE Supplier (
     SupplierID char(6) NOT NULL,
@@ -117,8 +113,6 @@ CREATE TABLE Supplier (
     FOREIGN KEY (ContactPerson) REFERENCES Employee (EmployeeID),
     PRIMARY KEY (SupplierID)
 ) ;
-GRANT ALL ON Supplier TO 'Purchases'@'%';
-GRANT ALL ON Supplier TO 'CPO'@'%';
 
 CREATE TABLE Product (
     ProductID char(6) NOT NULL,
@@ -137,11 +131,6 @@ CREATE TABLE Product (
     FOREIGN KEY (SupplierID) REFERENCES Supplier (SupplierID),
     FOREIGN KEY (ProductType) REFERENCES ProductType (ProductType)
 ) ;
-GRANT ALL       ON Product TO 'CPO'@'%';
-GRANT SELECT    ON Product TO 'Sales'@'%';
-GRANT ALL       ON Product TO 'Admin'@'%';
-GRANT ALL       ON Product TO 'CEO'@'%';
-GRANT ALL       ON Product TO 'Purchases'@'%';
 
 CREATE TABLE PurchaseOrder (
   PurchaseOrderID char(7) NOT NULL,
@@ -153,10 +142,6 @@ CREATE TABLE PurchaseOrder (
   FOREIGN KEY (SupplierID) REFERENCES Supplier (SupplierID)
 ) ;
 
-GRANT ALL ON PurchaseOrder TO 'CPO'@'%';
-GRANT ALL ON PurchaseOrder TO 'Purchases'@'%';
-----
-
 CREATE TABLE PurchaseOrderLine (
   PurchaseOrderID char(6) NOT NULL,
   ProductID char(6) NOT NULL,
@@ -165,10 +150,6 @@ CREATE TABLE PurchaseOrderLine (
   FOREIGN KEY (PurchaseOrderID) REFERENCES PurchaseOrder (PurchaseOrderID),
   FOREIGN KEY (ProductID) REFERENCES Product (ProductID)
 ) ;
-
-GRANT ALL ON PurchaseOrderLine TO 'CPO'@'%';
-GRANT ALL ON PurchaseOrderLine TO 'Purchases'@'%';
-----
 
 CREATE TABLE SalesOrder (
   SalesOrderID char(7) NOT NULL,
@@ -181,10 +162,6 @@ CREATE TABLE SalesOrder (
   FOREIGN KEY (CustomerID) REFERENCES Customer (CustomerID)
 );
 
-GRANT ALL ON SalesOrder TO 'CSO'@'%';
-GRANT ALL ON SalesOrder TO 'Sales'@'%';
------
-
 CREATE TABLE SalesOrderLine (
     SalesOrderID char(7) NOT NULL,
     ProductID char(6) NOT NULL,
@@ -194,9 +171,6 @@ CREATE TABLE SalesOrderLine (
     FOREIGN KEY (ProductID) REFERENCES Product (ProductID),
     PRIMARY KEY(SalesOrderID, ProductID)
 ) ;
-
-GRANT ALL ON SalesOrderLine TO 'CSO'@'%';
-GRANT ALL ON SalesOrderLine TO 'Sales'@'%';
 
 CREATE TABLE TimeStamps (
     EmployeeID char(6) NOT NULL,
@@ -209,8 +183,6 @@ CREATE TABLE TimeStamps (
     FOREIGN KEY (BossID) REFERENCES Employee (EmployeeID),
     PRIMARY KEY (EmployeeID, WorkDate)
 ) ;
-GRANT ALL ON `TimeStamps`   TO 'CEO'@'%';
-----
 
 CREATE TABLE payroll (
 	EmployeeID char(6),
@@ -226,33 +198,19 @@ CREATE TABLE payroll (
     PaymentDate date
 );
 
-GRANT ALL ON `payroll`      TO 'CEO'@'%';
-----
 
-
+<<<<<<< HEAD
+/*Triggers*/ 
+=======
 /*--------- VIEWs ---------------*/
-
-CREATE VIEW login AS
-SELECT EmployeeID, Title, Department FROM Employee;
-
-GRANT SELECT ON login TO 'login'@'%';
-----
 
 CREATE VIEW Dispatch
 AS SELECT SalesOrder.CustomerID, Customer.FirstName, Customer.LastName, Customer.Address FROM SalesOrder
 INNER JOIN Customer ON SalesOrder.CustomerID = Customer.CustomerID;
 
-GRANT ALL ON Dispatch TO 'CSO'@'%';
-GRANT ALL ON Dispatch TO 'Sales'@'%';
-----
-
 CREATE VIEW packing_list
 AS SELECT SalesOrderLine.SalesOrderID, SalesOrderLine.ProductID, Product.ProductName, SalesOrderLine.Amount FROM SalesOrderLine
 INNER JOIN Product ON SalesOrderLine.ProductID=Product.ProductID;
-
-GRANT ALL ON packing_list TO 'CSO'@'%';
-GRANT ALL ON packing_list TO 'Sales'@'%';
-----
 
 CREATE VIEW Invoice AS
 (SELECT SalesOrderLine.SalesOrderID, SalesOrderLine.ProductID, Product.ProductName, SalesOrderLine.Amount, SalesOrderLine.SalesPrice, SalesOrderLine.Amount*SalesOrderLine.SalesPrice 'TotalLinePrice' FROM SalesOrderLine
@@ -261,30 +219,10 @@ UNION
 (SELECT SalesOrderID, 'Total', null, null, null, SUM(Amount*SalesPrice) FROM SalesOrderLine
 GROUP BY SalesOrderID);
 
-GRANT ALL ON Invoice TO 'CSO'@'%';
-GRANT ALL ON Invoice TO 'Sales'@'%';
---
-
 CREATE VIEW timesheet AS 
 SELECT EmployeeID, WorkDate, WorkHours, Notice, WorkStatus
 FROM TimeStamps;
 
-GRANT ALL ON timesheet TO 'CEO'@'%';
-GRANT ALL ON timesheet TO 'CSO'@'%';
-GRANT ALL ON timesheet TO 'CPO'@'%';
-GRANT ALL ON timesheet TO 'Purchases'@'%';
-GRANT ALL ON timesheet TO 'Sales'@'%';
-
-CREATE VIEW timesheet_boss AS
-SELECT t.*, e.Department
-FROM TimeStamps AS t
-INNER JOIN Employee AS e ON e.EmployeeID = t.EmployeeID
-
-GRANT ALL ON timesheet_boss TO 'CSO'@'%';
-GRANT ALL ON timesheet_boss TO 'CPO'@'%';
-----
-
----Vi ved ikke hvornår vi bruger denne
 create view timesheet_all as
 select E.FirstName, E.LastName, T.WorkDate, T.WorkHours, T.WorkStatus, C.FirstName AS StatusFirstName, C.Lastname AS StatusLastName, Notice
 FROM Employee AS E, Employee AS C, TimeStamps AS T
@@ -298,6 +236,7 @@ FROM Product;
 
 
 -------- Triggers --------------
+>>>>>>> ab325b24860731411c86eac6ba9cca2be89dad2b
 DELIMITER $$
 CREATE TRIGGER Customer_ID_Insert BEFORE INSERT ON Customer 
 FOR EACH ROW 
@@ -342,6 +281,7 @@ BEGIN
 	SET NEW.SupplierID = CONCAT ('L', LPAD(LAST_INSERT_ID(), 5, '0'));
 END $$
 
+<<<<<<< HEAD
 /*VIEWs*/ 
 
 CREATE VIEW timesheet_boss AS
@@ -352,17 +292,20 @@ INNER JOIN Employee as e
 CREATE VIEW Dispatch
 AS SELECT SalesOrder.CustomerID, Customer.FirstName, Customer.LastName, Customer.Address FROM SalesOrder
 INNER JOIN Customer ON SalesOrder.CustomerID = Customer.CustomerID;
-
---HVORFOR STÅR DEN HER HER?
+=======
 CREATE TRIGGER InsertSalesPrice BEFORE INSERT ON SalesOrderLine
 FOR EACH ROW
 BEGIN
 	DECLARE n INT;
+>>>>>>> ab325b24860731411c86eac6ba9cca2be89dad2b
+
 	SELECT SalesPrice INTO n
 	FROM Product WHERE ProductID = NEW.ProductID;
+
     SET NEW.SalesPrice = n;
 END$$
 
+<<<<<<< HEAD
 CREATE VIEW timesheet AS 
 SELECT EmployeeID, WorkDate, WorkHours, Notice
 FROM TimeStamps;
@@ -382,6 +325,8 @@ FROM Product;
 /*PROCEDURE*/ 
 =======
 
+/*-------- PROCEDURE ------------*/
+>>>>>>> ab325b24860731411c86eac6ba9cca2be89dad2b
 Delimiter //
 CREATE procedure PaySalary (in var_startDate date, in var_endDate date)
 	begin
