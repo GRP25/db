@@ -105,5 +105,5 @@ PurchaseOrderLine(OrderID, ProductID, OrderLine, Amount, Price) // Amount is num
 * SQL Tabelmodefikationer - Mohamad
 * SQL Forespørgsler - Thomas
 * SQL Programering - Oliver
-* Bruger Profiler
-* Java Databseadgang
+* Bruger Profiler - Martin
+* Java Databseadgang - Martin

@@ -1,8 +1,8 @@
+/*
 CREATE DATABASE test01;
 USE test01;
 
-/*OK*/
-/*DROP TABLE IF EXISTS Empolyee;
+DROP TABLE IF EXISTS Empolyee;
 DROP TABLE IF EXISTS Department;
 DROP TABLE IF EXISTS Customer;
 DROP TABLE IF EXISTS Product;
@@ -11,10 +11,11 @@ DROP TABLE IF EXISTS PurchaseOrderLine;
 DROP TABLE IF EXISTS SalesOrder;
 DROP TABLE IF EXISTS SalesOrderLine;
 DROP TABLE IF EXISTS Supplier;
-DROP TABLE IF EXISTS TimeStamps;*/
+DROP TABLE IF EXISTS TimeStamps;
+*/
 
 
----------- Sequence Tables -------------
+/*Sequence Tables*/
 CREATE TABLE Customer_seq (
 	Customer_seq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
 );
@@ -44,7 +45,7 @@ CREATE TABLE Department (
     PRIMARY KEY (DepartmentName)
 );
 
----------- Tables --------
+/*Tables*/ 
 CREATE TABLE Employee (
     EmployeeID char(6),
     FirstName varchar(25) NOT NULL,
@@ -192,7 +193,7 @@ CREATE TABLE payroll (
 );
 
 
--------- Triggers --------------
+/*Triggers*/ 
 DELIMITER $$
 CREATE TRIGGER Customer_ID_Insert BEFORE INSERT ON Customer 
 FOR EACH ROW 
@@ -236,7 +237,12 @@ BEGIN
 	SET NEW.SupplierID = CONCAT ('L', LPAD(LAST_INSERT_ID(), 5, '0'));
 END $$
 
---------- VIEWs ---------------
+/*VIEWs*/ 
+
+CREATE VIEW timesheet_boss AS
+SELECT t.EmployeeID t.WorkDate t.WorkHours t.WorkStatus t.Notice t.BossID e.Department
+FROM TimeStamps as t
+INNER JOIN Employee as e
 
 CREATE VIEW Dispatch
 AS SELECT SalesOrder.CustomerID, Customer.FirstName, Customer.LastName, Customer.Address FROM SalesOrder
@@ -251,7 +257,7 @@ AS SELECT packing_list.SalesOrderID, packing_list.ProductID, packing_list.Detail
 INNER JOIN Product ON packing_list.ProductID = Product.ProductID;
 
 CREATE VIEW timesheet AS 
-SELECT EmployeeID, WorkDate, WorkHours, Notice, WorkStatus
+SELECT EmployeeID, WorkDate, WorkHours, Notice
 FROM TimeStamps;
 
 create view timesheet_all as
@@ -266,7 +272,7 @@ SELECT ProductID, ProductType, ProductName, Details, SalesPrice AS Price
 FROM Product;
 
 
--------- PROCEDURE ------------
+/*PROCEDURE*/ 
 Delimiter //
 CREATE procedure PaySalary (in var_startDate date, in var_endDate date)
 	begin

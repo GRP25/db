@@ -1,6 +1,3 @@
--- DELETE ALL EMPLOYEES
-DELETE FROM `Employee`
-
 -- CREATE ALL EMPLOYEES
 INSERT INTO `Employee` (`FirstName`, `LastName`,`Department`,`StartDate`,`AcountNo`,`Title`) VALUES ('Malte','Petersen','Admin',20200413,1234567890,'Fulltime');
 INSERT INTO `Employee` (`FirstName`, `LastName`,`Department`,`StartDate`,`AcountNo`,`Title`) VALUES ('Lise','Jacobsen','Admin',20200413,1234567890,'Parttime');
