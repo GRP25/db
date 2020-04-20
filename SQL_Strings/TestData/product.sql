@@ -1,0 +1,2 @@
+INSERT INTO Product(ProductName, ProductType,Details, HTMLDescription, Image, SupplierID, purchasePrice, SalesPrice,StockQuantity, TransportSC, TransportCC) VALUES ('DSB MY100', 'dieseltrain','Flot Märklin DSB lokomotiv fra 1998', null,null,'L40001',1250,2499,10,null,null);
+INSERT INTO Product(ProductName, ProductType,Details, HTMLDescription, Image, SupplierID, purchasePrice, SalesPrice,StockQuantity, TransportSC, TransportCC) VALUES ('SBB Class C 5/6 "Elefant"', 'steamtrain','This is a placeholder describtion', null,null,'L40001',1450,3599,12,null,null);
