@@ -386,38 +386,10 @@ FROM Product;
 
 
 /*PROCEDURE*/ 
-=======
 
 Delimiter //
 CREATE procedure PaySalary (in var_startDate date, in var_endDate date)
 	begin
-		DECLARE status char(5) default '00000';
-        DECLARE continue handler for sqlexception
-        BEGIN GET diagnostics condition 1 status = returned_sqlstate;
-	end;
-    start transaction;
-    create table E select EmployeeId, FirstName, LastName, Department, Title, Salary, HourlyWage, AcountNo
-    FROM Employee WHERE StartDate <= var_startDate AND EndDate >= var_endDate; 
-    create table T select EmployeeID, SUM(WorkHours) AS Hours, WorkStatus
-    FROM TimeStamps WHERE WorkStatus = 'approved' AND WorkDate <= var_endDate GROUP BY EmployeeID;
-    INSERT payroll  SELECT E.EmployeeID, E.FirstName, E.LastName, E.Department, E.Title,
-    COALESCE(E.Salary,0) AS Salary, COALESCE(E.HourlyWage,0) AS HourlyWage,
-    COALESCE(T.Hours,0) AS HoursWorked, E.Salary + COALESCE(T.Hours,0)*E.HourlyWage AS Payout, T.WorkStatus as PaymentStatus, E.AcountNo as Acount, curdate() AS PaymentDate
-    FROM E AS E, T AS T WHERE E.EmployeeID = T.EmployeeID;
-    UPDATE TimeStamps SET WorkStatus = 'payed' WHERE WorkStatus = 'approved' AND WorkDate <= var_endDate;
-    DROP TABLE E;
-    DROP TABLE T;
-    END//
-Delimiter ;
-
-Delimiter //
-DROP procedure PaySalary;
-CREATE procedure PaySalary (in var_startDate date, in var_endDate date)
-	begin
-	/*	DECLARE status char(5) default '00000';
-        DECLARE continue handler for sqlexception
-        BEGIN GET diagnostics condition 1 status = returned_sqlstate; */
-    /* start transaction; */
     INSERT INTO payroll (EmployeeID,FirstName,LastName,Department,Title,Salary,HourlyWage,HoursWorked, payout, acount, PaymentDate)
     SELECT 	TimeStamps.EmployeeID, 
 			Employee.FirstName, 
@@ -427,11 +399,12 @@ CREATE procedure PaySalary (in var_startDate date, in var_endDate date)
             Employee.Salary,
             Employee.HourlyWage, 
             SUM(TimeStamps.WorkHours), 
-            SUM(Employee.HourlyWage*TimeStamps.WorkHours), 
+            SUM((Employee.HourlyWage*TimeStamps.WorkHours)+Employee.Salary), 
 			Employee.AcountNo,
             curdate()
 	FROM TimeStamps 
-    INNER JOIN Employee ON TimeStamps.EmployeeID=Employee.EmployeeID WHERE TimeStamps.WorkDate>=var_startDate AND TimeStamps.WorkDate<=var_endDate  GROUP BY TimeStamps.EmployeeID;
+    INNER JOIN Employee ON TimeStamps.EmployeeID=Employee.EmployeeID WHERE TimeStamps.WorkDate>=var_startDate AND TimeStamps.WorkDate<=var_endDate  
+    GROUP BY TimeStamps.EmployeeID;
    UPDATE TimeStamps SET WorkStatus = 'payed' 
    WHERE WorkStatus = 'approved' AND WorkDate <= var_endDate;
     END //
