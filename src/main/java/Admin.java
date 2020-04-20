@@ -298,7 +298,18 @@ public class Admin {
                 AlterUserPassword();
                 break;
             case (2):
-                GrantPrivilege();
+                System.out.println("GRANT OR REVOKE");
+                System.out.println("1. GRANT");
+                System.out.println("2. REVOKE");
+                int input = s.nextInt();
+                if (input == 1) {
+                    GrantPrivilege();
+                } else if (input == 2){
+                    revokePrivilege();
+                } else {
+                    System.out.println("Du har lavet en fejl...");
+                }
+
                 break;
             case (3):
                 DeleteUser();
@@ -321,10 +332,10 @@ public class Admin {
     }
 
     private void GrantPrivilege() {
-        String sql = " GRANT SELECT ON ";
-        /*System.out.println("Specify the action you wish to perform");
+        System.out.println("Specify the action you wish to perform");
         System.out.println("I.e ALL, SELECT ect.");
-        String GR = s.next();*/
+        String GR = s.next();
+        String sql = " GRANT "+GR+" ON ";
         System.out.println("Specify the table / database / views you wish to grant these priviliges on:");
         String db = s.next();
         System.out.println("Specify the user you wish to grant these privilges to");
@@ -346,6 +357,27 @@ public class Admin {
     }
 
     public void revokePrivilege(){
+        System.out.println("Specify the action you do not wish to perform");
+        System.out.println("I.e ALL, SELECT ect.");
+        String GR = s.next();
+        String sql = " REVOKE "+GR+" ON ";
+        System.out.println("Specify the table / database / views you wish to grant these priviliges on:");
+        String db = s.next();
+        System.out.println("Specify the user you wish to grant these privilges to");
+        String userTest = s.next();
+        sql += db;
+        sql +=" FROM '"+userTest+"'@'%';";
+
+        System.out.println(sql);
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            //pstmt.setString(1,GR);
+            //pstmt.setString(1, db);
+            System.out.println(pstmt);
+            pstmt.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 
