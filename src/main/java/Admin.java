@@ -32,8 +32,7 @@ public class Admin {
         System.out.println("8. Add a user to the database ");
         System.out.println("9. Admin current database users ");
         System.out.println("10. Get timesheet ");
-        System.out.println("11. Query the database directly ");
-        System.out.println("12. Exit program");
+        System.out.println("11. Exit program");
 
         int input = s.nextInt();
 
@@ -272,7 +271,7 @@ public class Admin {
     }
 
     public void AddDBUser() {
-        String sql = "CREATE USER '?'@'%' IDENTIFIED BY '?';";
+        String sql = "CREATE USER ?@'%' IDENTIFIED BY ?;";
         System.out.println("Enter Username");
         String user = s.next();
         System.out.println("Enter password");
@@ -283,20 +282,20 @@ public class Admin {
             ptsm.setString(2, pass);
             ptsm.executeQuery();
         } catch (SQLException e) {
-            e.getMessage();
+            System.out.println(e.getMessage());
         }
     }
     
     public void AdminDBUser() {
         System.out.println("Which function do you wish to perfrom");
-        System.out.println("1. Alter existing user");
+        System.out.println("1. Alter existing users password");
         System.out.println("2. Grant/revoke privileges on existing user");
         System.out.println("3. Delete a user");
         int choice = s.nextInt();
 
         switch (choice) {
             case (1):
-                AlterUser();
+                AlterUserPassword();
                 break;
             case (2):
                 GrantPrivilege();
@@ -311,7 +310,7 @@ public class Admin {
     private void DeleteUser() {
         String sql = "DROP USER ?;";
         System.out.println("Witch user do you wish to delete?");
-        String in = s.nextLine();
+        String in = s.next();
         try {
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1,in);
@@ -322,20 +321,23 @@ public class Admin {
     }
 
     private void GrantPrivilege() {
-        String sql = " ? ON ? TO '?'@'%';";
-        System.out.println("Specify the action you wish to perform");
-        System.out.println("I.e GRANT SELECT or REVOKE SELECT");
-        String GR = s.nextLine();
+        String sql = " GRANT SELECT ON ";
+        /*System.out.println("Specify the action you wish to perform");
+        System.out.println("I.e ALL, SELECT ect.");
+        String GR = s.next();*/
         System.out.println("Specify the table / database / views you wish to grant these priviliges on:");
-        String db = s.nextLine();
+        String db = s.next();
         System.out.println("Specify the user you wish to grant these privilges to");
-        String user = s.nextLine();
+        String userTest = s.next();
+        sql += db;
+        sql +=" TO '"+userTest+"'@'%';";
 
+        System.out.println(sql);
         try {
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1,GR);
-            pstmt.setString(2, db);
-            pstmt.setString(3,user);
+            //pstmt.setString(1,GR);
+            //pstmt.setString(1, db);
+            System.out.println(pstmt);
             pstmt.executeQuery();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -343,20 +345,25 @@ public class Admin {
 
     }
 
-    private void AlterUser() {
-        String sql = "ALTER USER ? WITH ?;";
+    public void revokePrivilege(){
+
+    }
+
+    private void AlterUserPassword() {
+        String sql = "SET Password FOR ?@'%' = Password(?) ";
         System.out.println("Enter the username of the user you wish to change");
-        String user = s.nextLine();
+        String user = s.next();
         System.out.println("Enter SQL statment excluding WITH");
-        String statement = s.nextLine();
-        
+        String statement = s.next();
+
         try {
             PreparedStatement ptsmt = connection.prepareStatement(sql);
             ptsmt.setString(1, user);
             ptsmt.setString(2,statement);
+            System.out.println(ptsmt);
             ptsmt.executeQuery();
         } catch (SQLException e) {
-            
+            System.out.println(e.getMessage());
         }
     }
 

@@ -26,7 +26,7 @@ public class Sales{
         System.out.println("7 View invoice");
         System.out.println("8 View dispatch");
         System.out.println("9 Add Payment register");
-        System.out.println("10 Add view Time Sheet");
+        System.out.println("10 View Time Sheet");
         System.out.println("11 Inset into time sheet");
         System.out.println("12 View all time sheets for sales department");
 
@@ -216,8 +216,7 @@ public class Sales{
     }
 
     public void packingList(String SalesOrderID) throws SQLException {
-
-        String sql = "SELECT * FROM packing_list WHERE SalesOrderID = ?";
+        String sql = "SELECT * FROM packing_list WHERE SalesOrderID = ?;";
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1,SalesOrderID);
         ResultSet rs = pstm.executeQuery();
@@ -234,32 +233,30 @@ public class Sales{
     }
 
     public void invoice(String SalesOrderID) throws SQLException {
-
-        String sql = "CALL sendOrder(?) ";
-        CallableStatement pstm = conn.prepareCall(sql);
-        pstm.setString(1,SalesOrderID);
-        ResultSet rs = pstm.executeQuery();
+        CallableStatement cstm = conn.prepareCall("{CALL SendOrder(?)}");
+        cstm.setString(1,SalesOrderID);
+        ResultSet rs = cstm.executeQuery();
 
         while(rs.next()){
             String pID = rs.getString("ProductID");
-            String details = rs.getString("Details");
+            String pName = rs.getString("ProductName");
             String amount = rs.getString("Amount");
             String saleP = rs.getString("SalesPrice");
             String linePrice = rs.getString("TotalLinePrice");
 
-            System.out.format("%s, %s, %s, %s, %s\n",pID,details,amount,saleP,linePrice);
+            System.out.format("%s, %s, %s, %s, %s\n",pID,pName,amount,saleP,linePrice);
         }
 
     }
 
     public void dispatch(String CustomerID) throws SQLException {
-
-        String sql = "SELECT * FROM Dispatch WHERE CustomerID = ?";
+        String sql = "SELECT * FROM Dispatch WHERE CustomerID = ?;";
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1,CustomerID);
         ResultSet rs = pstm.executeQuery();
 
         while(rs.next()){
+
             String cID = rs.getString("CustomerID");
             String fName = rs.getString("FirstName");
             String lName = rs.getString("LastName");
@@ -270,8 +267,7 @@ public class Sales{
     }
 
     public void paymentReg(String SalesOrderID) throws SQLException {
-        String sql = "CALL PaymentRegister (?)";
-        CallableStatement pstm = conn.prepareCall(sql);
+        CallableStatement pstm = conn.prepareCall("{CALL PaymentRegister (?)}");
         pstm.setString(1,SalesOrderID);
 
         pstm.executeQuery();
@@ -289,7 +285,7 @@ public class Sales{
             String workHours = rs.getString("WorkHours");
             String notice = rs.getString("Notice");
 
-            System.out.format("&s, &s, &s, &s, \n", eID, workDate, workHours, notice);
+            System.out.format("%s, %s, %s, %s, \n", eID, workDate, workHours, notice);
         }
     }
 
