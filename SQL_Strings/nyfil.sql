@@ -1,3 +1,4 @@
+GRANT ALL       ON *.*                  TO 'CEO'@'%';
 GRANT EXECUTE   ON dbprojekt.*          TO 'CSO'@'%';
 GRANT EXECUTE   ON dbprojekt.*          TO 'Sales'@'%';
 
