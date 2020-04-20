@@ -1,19 +1,19 @@
 -- CREATE ALL EMPLOYEES
-INSERT INTO `Employee` (`FirstName`, `LastName`,`Department`,`StartDate`,`AcountNo`,`Title`) VALUES ('Malte','Petersen','Admin',20200413,1234567890,'Fulltime');
-INSERT INTO `Employee` (`FirstName`, `LastName`,`Department`,`StartDate`,`AcountNo`,`Title`) VALUES ('Lise','Jacobsen','Admin',20200413,1234567890,'Parttime');
-INSERT INTO `Employee` (`FirstName`, `LastName`,`Department`,`StartDate`,`AcountNo`,`Title`) VALUES ('Frederik','Tomsen','Admin',20200413,1234567890,'Parttime');
-INSERT INTO `Employee` (`FirstName`, `LastName`,`Department`,`StartDate`,`AcountNo`,`Title`) VALUES ('Anders','Bentsen','Admin',20200413,1234567890,'Boss');
+INSERT INTO `Employee` (`FirstName`, `LastName`,`Address`,`PostalCode`,`City`,`Phone`,`Salary`,`HourlyWage`,`Department`,`StartDate`,`EndDate`,`AcountNo`,`Title`) VALUES ('Malte','Petersen','Amagerbrogade 17', '2300','København S','20589011',40000,250,'Admin',20200413,20500101,1234567890,'Fulltime');
+INSERT INTO `Employee` (`FirstName`, `LastName`,`Address`,`PostalCode`,`City`,`Phone`,`Salary`,`HourlyWage`,`Department`,`StartDate`,`EndDate`,`AcountNo`,`Title`) VALUES ('Lise','Jacobsen','DelfinGade 22','1325','København K', '25608999',0,150,'Admin',20200413,20500101,1234567890,'Parttime');
+INSERT INTO `Employee` (`FirstName`, `LastName`,`Address`,`PostalCode`,`City`,`Phone`,`Salary`,`HourlyWage`,`Department`,`StartDate`,`EndDate`,`AcountNo`,`Title`) VALUES ('Frederik','Tomsen','Sankt Peders Stræde 9','1453','Københanv K','80335070',0,220,'Admin',20200413,20500101,1234567890,'Parttime');
+INSERT INTO `Employee` (`FirstName`, `LastName`,`Address`,`PostalCode`,`City`,`Phone`,`Salary`,`HourlyWage`,`Department`,`StartDate`,`EndDate`,`AcountNo`,`Title`) VALUES ('Anders','Bentsen','Silkegade 1','1113','København V','20256070',70000,250,'Admin',20200413,20500101,1234567890,'Boss');
 
 
-INSERT INTO `Employee` (`FirstName`, `LastName`,`Department`,`StartDate`,`AcountNo`,`Title`) VALUES ('Christine','Dahl','Sales',20200413,1234567890,'Boss'); 
-INSERT INTO `Employee` (`FirstName`, `LastName`,`Department`,`StartDate`,`AcountNo`,`Title`) VALUES ('Hans','Christensen','Sales',20200413,1234567890,'Fulltime'); 
-INSERT INTO `Employee` (`FirstName`, `LastName`,`Department`,`StartDate`,`AcountNo`,`Title`) VALUES ('Ole','Hansen','Sales',20200413,1234567890,'Fulltime'); 
-INSERT INTO `Employee` (`FirstName`, `LastName`,`Department`,`StartDate`,`AcountNo`,`Title`) VALUES ('Iben','Leth','Sales',20200413,1234567890,'Parttime'); 
-INSERT INTO `Employee` (`FirstName`, `LastName`,`Department`,`StartDate`,`AcountNo`,`Title`) VALUES ('Hans Peter','Mortensen','Sales',20200413,1234567890,'Parttime'); 
-INSERT INTO `Employee` (`FirstName`, `LastName`,`Department`,`StartDate`,`AcountNo`,`Title`) VALUES ('Leif','Jensen','Sales',20200413,1234567890,'Parttime'); 
-INSERT INTO `Employee` (`FirstName`, `LastName`,`Department`,`StartDate`,`AcountNo`,`Title`) VALUES ('Morten','Petersen','Sales',20200413,1234567890,'Parttime'); 
+INSERT INTO `Employee` (`FirstName`, `LastName`,`Address`,`PostalCode`,`City`,`Phone`,`Salary`,`HourlyWage`,`Department`,`StartDate`,`EndDate`,`AcountNo`,`Title`) VALUES ('Christine','Dahl','Grundtvigsvej 58','1864','København C','50408890',40000,250,'Sales',20200413,20500101,1234567890,'Boss'); 
+INSERT INTO `Employee` (`FirstName`, `LastName`,`Address`,`PostalCode`,`City`,`Phone`,`Salary`,`HourlyWage`,`Department`,`StartDate`,`EndDate`,`AcountNo`,`Title`) VALUES ('Hans','Christensen','Kastanievej 23','1876','København C','25252525',30000, 170,'Sales',20200413, 20500101,1234567890,'Fulltime'); 
+INSERT INTO `Employee` (`FirstName`, `LastName`,`Address`,`PostalCode`,`City`,`Phone`,`Salary`,`HourlyWage`,`Department`,`StartDate`,`EndDate`,`AcountNo`,`Title`) VALUES ('Ole','Hansen','Niels Ebbesens Vej 5','1957','København K','70906242', 32000, 160,'Sales',20200413,20500101,1234567890,'Fulltime'); 
+INSERT INTO `Employee` (`FirstName`, `LastName`,`Address`,`PostalCode`,`City`,`Phone`,`Salary`,`HourlyWage`,`Department`,`StartDate`,`EndDate`,`AcountNo`,`Title`) VALUES ('Iben','Leth','Rhodosvej 9','2250','København V','94720764',0, 200,'Sales',20200413,20500101,1234567890,'Parttime'); 
+INSERT INTO `Employee` (`FirstName`, `LastName`,`Address`,`PostalCode`,`City`,`Phone`,`Salary`,`HourlyWage`,`Department`,`StartDate`,`EndDate`,`AcountNo`,`Title`) VALUES ('Hans Peter','Mortensen','Acaciavej 4','1867','København K','77808210',0, 200,'Sales',20200413,20500101,1234567890,'Parttime'); 
+INSERT INTO `Employee` (`FirstName`, `LastName`,`Address`,`PostalCode`,`City`,`Phone`,`Salary`,`HourlyWage`,`Department`,`StartDate`,`EndDate`,`AcountNo`,`Title`) VALUES ('Leif','Jensen','Gammelmosevej 182','2800','Lyngby','80206099',0,180,'Sales',20200413,20500101,1234567890,'Parttime'); 
+INSERT INTO `Employee` (`FirstName`, `LastName`,`Address`,`PostalCode`,`City`,`Phone`,`Salary`,`HourlyWage`,`Department`,`StartDate`,`EndDate`,`AcountNo`,`Title`) VALUES ('Morten','Petersen','Hjorthøj 10', '2800','Lyngby','90887240', 0, 180,'Sales',20200413,20500101,1234567890,'Parttime'); 
 
 
-INSERT INTO `Employee` (`FirstName`, `LastName`,`Department`,`StartDate`,`AcountNo`,`Title`) VALUES ('Eva Anette','Frederiksen','Purchases',20200413,1234567890,'Boss'); 
-INSERT INTO `Employee` (`FirstName`, `LastName`,`Department`,`StartDate`,`AcountNo`,`Title`) VALUES ('Viggo','Alberg','Purchases',20200413,1234567890,'Fulltime'); 
-INSERT INTO `Employee` (`FirstName`, `LastName`,`Department`,`StartDate`,`AcountNo`,`Title`) VALUES ('Ea','Fluvholm','Purchases',20200413,1234567890,'Parttime'); 
+INSERT INTO `Employee` (`FirstName`, `LastName`,`Address`,`PostalCode`,`City`,`Phone`,`Salary`,`HourlyWage`,`Department`,`StartDate`,`EndDate`,`AcountNo`,`Title`) VALUES ('Eva Anette','Frederiksen','Henrik Ibsens Vej 5','1866','København C','60779020',80000,250,'Purchases',20200413,20500101,1234567890,'Boss'); 
+INSERT INTO `Employee` (`FirstName`, `LastName`,`Address`,`PostalCode`,`City`,`Phone`,`Salary`,`HourlyWage`,`Department`,`StartDate`,`EndDate`,`AcountNo`,`Title`) VALUES ('Viggo','Alberg','Kochsvej 10', '1812','København C','22405260', 40000, 210,'Purchases',20200413,20500101,1234567890,'Fulltime'); 
+INSERT INTO `Employee` (`FirstName`, `LastName`,`Address`,`PostalCode`,`City`,`Phone`,`Salary`,`HourlyWage`,`Department`,`StartDate`,`EndDate`,`AcountNo`,`Title`) VALUES ('Ea','Fluvholm','Falkonergårdsvej','1952','København C','40428010',0, 180,'Purchases',20200413,20500101,1234567890,'Parttime'); 
