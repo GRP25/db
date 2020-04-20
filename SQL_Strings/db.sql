@@ -411,6 +411,34 @@ CREATE procedure PaySalary (in var_startDate date, in var_endDate date)
     commit transaction;
 Delimiter ;
 
+Delimiter //
+DROP procedure PaySalary;
+CREATE procedure PaySalary (in var_startDate date, in var_endDate date)
+	begin
+	/*	DECLARE status char(5) default '00000';
+        DECLARE continue handler for sqlexception
+        BEGIN GET diagnostics condition 1 status = returned_sqlstate; */
+    /* start transaction; */
+    INSERT INTO payroll (EmployeeID,FirstName,LastName,Department,Title,Salary,HourlyWage,HoursWorked, payout, acount, PaymentDate)
+    SELECT 	TimeStamps.EmployeeID, 
+			Employee.FirstName, 
+            Employee.LastName, 
+            Employee.Department, 
+            Employee.Title, 
+            Employee.Salary,
+            Employee.HourlyWage, 
+            SUM(TimeStamps.WorkHours), 
+            SUM(Employee.HourlyWage*TimeStamps.WorkHours), 
+			Employee.AcountNo,
+            curdate()
+	FROM TimeStamps 
+    INNER JOIN Employee ON TimeStamps.EmployeeID=Employee.EmployeeID WHERE TimeStamps.WorkDate>=var_startDate AND TimeStamps.WorkDate<=var_endDate  GROUP BY TimeStamps.EmployeeID;
+   UPDATE TimeStamps SET WorkStatus = 'payed' 
+   WHERE WorkStatus = 'approved' AND WorkDate <= var_endDate;
+    END //
+
+
+
 DELIMITER $$
 CREATE PROCEDURE SendOrder( IN ID CHAR(7))
 BEGIN 
