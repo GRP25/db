@@ -386,30 +386,32 @@ FROM Product;
 
 
 /*PROCEDURE*/ 
-=======
 
 Delimiter //
+
 CREATE procedure PaySalary (in var_startDate date, in var_endDate date)
-	begin
-		DECLARE status char(5) default '00000';
-        DECLARE continue handler for sqlexception
-        BEGIN GET diagnostics condition 1 status = returned_sqlstate;
-	end;
-    start transaction;
-    create table E select EmployeeId, FirstName, LastName, Department, Salary, HourlyWage, AccountNo
-    FROM Employee WHERE StartDate <= var_startDate AND EndDate >= var_endDate;
-    create table T select SUM(WorkHours) AS Hours, WorkStatus
-    FROM TimeStamps WHERE WorkStatus = 'approved' AND WorkDate <= var_endDate GROUP BY EmployeeID;
-    INSERT payroll  SELECT EmployeeID, FirstName, LastName, Department, Title,
-    COALESCE(Salary,0) AS Salary, COALESCE(HourlyWage,0) AS HourlyWage,
-    COALESCE(Hours,0) AS HoursWorked, Salary + COALESCE(Hours,0)*HourlyWage AS Payout, AccountNo, curdate() AS PaymentDate
-    FROM E NATURAL LEFT OUTER JOIN T GROUP BY Department;
-    UPDATE TimeStamps SET WorkStatus = 'payed' WHERE WorkStatus = 'approved' AND WorkDate <= var_endDate;
-    DROP TABLE E;
-    DROP TABLE T;
-    END//
-    commit transaction;
-Delimiter ;
+BEGIN
+    INSERT INTO payroll (EmployeeID,FirstName,LastName,Department,Title,Salary,HourlyWage,HoursWorked, payout, PaymentStatus, acount, PaymentDate)
+    SELECT 	TimeStamps.EmployeeID, 
+			Employee.FirstName, 
+            Employee.LastName, 
+            Employee.Department, 
+            Employee.Title, 
+            Employee.Salary,
+            Employee.HourlyWage, 
+            SUM(TimeStamps.WorkHours), 
+            SUM((Employee.HourlyWage*TimeStamps.WorkHours)+Employee.Salary), 
+            'Payed',
+			Employee.AcountNo,
+            curdate()
+	FROM TimeStamps 
+    INNER JOIN Employee ON TimeStamps.EmployeeID=Employee.EmployeeID WHERE TimeStamps.WorkDate>=var_startDate AND TimeStamps.WorkDate<=var_endDate  
+    GROUP BY TimeStamps.EmployeeID;
+   UPDATE TimeStamps SET WorkStatus = 'payed' 
+   WHERE WorkStatus = 'approved' AND WorkDate <= var_endDate;
+    END //
+
+
 
 DELIMITER $$
 CREATE PROCEDURE SendOrder( IN ID CHAR(7))
