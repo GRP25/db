@@ -388,9 +388,10 @@ FROM Product;
 /*PROCEDURE*/ 
 
 Delimiter //
+
 CREATE procedure PaySalary (in var_startDate date, in var_endDate date)
-	begin
-    INSERT INTO payroll (EmployeeID,FirstName,LastName,Department,Title,Salary,HourlyWage,HoursWorked, payout, acount, PaymentDate)
+BEGIN
+    INSERT INTO payroll (EmployeeID,FirstName,LastName,Department,Title,Salary,HourlyWage,HoursWorked, payout, PaymentStatus, acount, PaymentDate)
     SELECT 	TimeStamps.EmployeeID, 
 			Employee.FirstName, 
             Employee.LastName, 
@@ -400,6 +401,7 @@ CREATE procedure PaySalary (in var_startDate date, in var_endDate date)
             Employee.HourlyWage, 
             SUM(TimeStamps.WorkHours), 
             SUM((Employee.HourlyWage*TimeStamps.WorkHours)+Employee.Salary), 
+            'Payed',
 			Employee.AcountNo,
             curdate()
 	FROM TimeStamps 
