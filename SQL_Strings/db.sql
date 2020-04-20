@@ -1,18 +1,6 @@
-CREATE DATABASE test01;
-USE test01;
-
-/*OK*/
-/*DROP TABLE IF EXISTS Empolyee;
-DROP TABLE IF EXISTS Department;
-DROP TABLE IF EXISTS Customer;
-DROP TABLE IF EXISTS Product;
-DROP TABLE IF EXISTS PurchaseOrder;
-DROP TABLE IF EXISTS PurchaseOrderLine;
-DROP TABLE IF EXISTS SalesOrder;
-DROP TABLE IF EXISTS SalesOrderLine;
-DROP TABLE IF EXISTS Supplier;
-DROP TABLE IF EXISTS TimeStamps;*/
-
+/*DROP DATABASE dbprojekt;*/
+CREATE DATABASE dbprojekt;
+USE dbprojekt;
 
 ---------- Sequence Tables -------------
 CREATE TABLE Customer_seq (
@@ -192,6 +180,39 @@ CREATE TABLE payroll (
 );
 
 
+/*--------- VIEWs ---------------*/
+
+CREATE VIEW Dispatch
+AS SELECT SalesOrder.CustomerID, Customer.FirstName, Customer.LastName, Customer.Address FROM SalesOrder
+INNER JOIN Customer ON SalesOrder.CustomerID = Customer.CustomerID;
+
+CREATE VIEW packing_list
+AS SELECT SalesOrderLine.SalesOrderID, SalesOrderLine.ProductID, Product.ProductName, SalesOrderLine.Amount FROM SalesOrderLine
+INNER JOIN Product ON SalesOrderLine.ProductID=Product.ProductID;
+
+CREATE VIEW Invoice AS
+(SELECT SalesOrderLine.SalesOrderID, SalesOrderLine.ProductID, Product.ProductName, SalesOrderLine.Amount, SalesOrderLine.SalesPrice, SalesOrderLine.Amount*SalesOrderLine.SalesPrice 'TotalLinePrice' FROM SalesOrderLine
+INNER JOIN Product ON SalesOrderLine.ProductID = Product.ProductID )
+UNION
+(SELECT SalesOrderID, 'Total', null, null, null, SUM(Amount*SalesPrice) FROM SalesOrderLine
+GROUP BY SalesOrderID);
+
+CREATE VIEW timesheet AS 
+SELECT EmployeeID, WorkDate, WorkHours, Notice, WorkStatus
+FROM TimeStamps;
+
+create view timesheet_all as
+select E.FirstName, E.LastName, T.WorkDate, T.WorkHours, T.WorkStatus, C.FirstName AS StatusFirstName, C.Lastname AS StatusLastName, Notice
+FROM Employee AS E, Employee AS C, TimeStamps AS T
+WHERE E.EmployeeID = T.EmployeeID AND T.BossID = C.EmployeeID 
+AND curdate() BETWEEN E.StartDate AND E.EndDate AND curdate() BETWEEN C.StartDate AND C.EndDate
+order by WorkDate; 
+
+CREATE VIEW MarketingCatalog AS
+SELECT ProductID, ProductType, ProductName, Details, SalesPrice AS Price
+FROM Product;
+
+
 -------- Triggers --------------
 DELIMITER $$
 CREATE TRIGGER Customer_ID_Insert BEFORE INSERT ON Customer 
@@ -227,6 +248,7 @@ FOR EACH ROW
 BEGIN
 	INSERT INTO SalesOrder_seq VALUES (NULL);
 	SET NEW.SalesOrderID = CONCAT ('SO', LPAD(LAST_INSERT_ID(), 5, '0'));
+    SET NEW.OrderDate = curdate();
 END $$
 
 CREATE TRIGGER Supplier_ID_Insert BEFORE INSERT ON Supplier 
@@ -236,37 +258,19 @@ BEGIN
 	SET NEW.SupplierID = CONCAT ('L', LPAD(LAST_INSERT_ID(), 5, '0'));
 END $$
 
---------- VIEWs ---------------
+CREATE TRIGGER InsertSalesPrice BEFORE INSERT ON SalesOrderLine
+FOR EACH ROW
+BEGIN
+	DECLARE n INT;
 
-CREATE VIEW Dispatch
-AS SELECT SalesOrder.CustomerID, Customer.FirstName, Customer.LastName, Customer.Address FROM SalesOrder
-INNER JOIN Customer ON SalesOrder.CustomerID = Customer.CustomerID;
+	SELECT SalesPrice INTO n
+	FROM Product WHERE ProductID = NEW.ProductID;
 
-CREATE VIEW packing_list
-AS SELECT SalesOrderLine.SalesOrderID, SalesOrderLine.ProductID, Product.Details, SalesOrderLine.Amount FROM SalesOrderLine
-INNER JOIN Product ON SalesOrderLine.ProductID=Product.ProductID;
-
-CREATE VIEW Invoice
-AS SELECT packing_list.SalesOrderID, packing_list.ProductID, packing_list.Details, packing_list.Amount, Product.SalesPrice, packing_list.Amount*Product.SalesPrice 'TotalLinePrice' FROM packing_list
-INNER JOIN Product ON packing_list.ProductID = Product.ProductID;
-
-CREATE VIEW timesheet AS 
-SELECT EmployeeID, WorkDate, WorkHours, Notice, WorkStatus
-FROM TimeStamps;
-
-create view timesheet_all as
-select E.FirstName, E.LastName, T.WorkDate, T.WorkHours, T.WorkStatus, C.FirstName AS StatusFirstName, C.Lastname AS StatusLastName, Notice
-FROM Employee AS E, Employee AS C, TimeStamps AS T
-WHERE E.EmployeeID = T.EmployeeID AND T.BossID = C.EmployeeID 
-AND curdate() BETWEEN E.StartDate AND E.EndDate AND curdate() BETWEEN C.StartDate AND C.EndDate
-order by WorkDate; 
-
-CREATE VIEW MarketingCatalog AS
-SELECT ProductID, ProductType, ProductName, Details, SalesPrice AS Price
-FROM Product;
+    SET NEW.SalesPrice = n;
+END$$
 
 
--------- PROCEDURE ------------
+/*-------- PROCEDURE ------------*/
 Delimiter //
 CREATE procedure PaySalary (in var_startDate date, in var_endDate date)
 	begin
@@ -289,3 +293,21 @@ CREATE procedure PaySalary (in var_startDate date, in var_endDate date)
     END//
     commit transaction;
 Delimiter ;
+
+DELIMITER $$
+CREATE PROCEDURE SendOrder( ID CHAR(7))
+BEGIN 
+	UPDATE SalesOrder
+    SET InvoiceDate = curdate(), ShippingDate = curdate()
+    WHERE SalesOrderID = ID;
+    
+    SELECT ProductID, Details, Amount, SalesPrice, TotalLinePrice FROM Invoice WHERE SalesOrderID = ID;
+END $$
+
+DELIMITER $$
+CREATE PROCEDURE PaymentRegister( ID CHAR(7))
+BEGIN
+	UPDATE SalesOrder
+    SET PaymentDate = curdate()
+    WHERE SalesOrderID = ID;
+END$$
