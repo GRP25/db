@@ -158,7 +158,7 @@ GRANT ALL ON PurchaseOrder TO 'Purchases'@'%';
 ----
 
 CREATE TABLE PurchaseOrderLine (
-  PurchaseOrderID char(6) NOT NULL,
+  PurchaseOrderID char(7) NOT NULL,
   ProductID char(6) NOT NULL,
   Amount INT DEFAULT NULL,
   PurchasePrice DECIMAL(20,2) DEFAULT NULL,
@@ -209,6 +209,7 @@ CREATE TABLE TimeStamps (
     FOREIGN KEY (BossID) REFERENCES Employee (EmployeeID),
     PRIMARY KEY (EmployeeID, WorkDate)
 ) ;
+
 GRANT ALL ON `TimeStamps`   TO 'CEO'@'%';
 ----
 
