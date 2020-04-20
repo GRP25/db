@@ -79,21 +79,22 @@ public class Admin {
     }
 
     public void AddEmployee() {
-        String sql = "INSERT INTO Employee(FirstName, LastName, Address, PostalCode, City" +
-                "Phone, Salary, HourlyWage, Title, Department, StartDate, AcountNo" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Employee(FirstName, LastName, Address, PostalCode, City, " +
+                "Phone, Salary, HourlyWage, Title, Department, StartDate, EndDate, AcountNo)" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         System.out.println("Please input the following, seperated by commas:");
-        System.out.println("Firstname, Lastname, Address, Postalcode, City, Phonenumber, Salary, Job title, Department, StartDate and account number");
-        String input = s.nextLine();
+        System.out.println("Firstname, Lastname, Address, Postalcode, City, Phonenumber, Salary, HourlyWage, Job title, Department, StartDate, EndDate and account number");
+        String input = s.next();
 
+        inputParse = new String[12];
         inputParse = input.split(",");
 
 
         try {
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            for (int i = 1; i <= 11; i++ ) {
-                if (i == 8 || i == 9 || i == 11) {
+            for (int i = 1; i <= 13; i++ ) {
+                if (i == 7 || i == 8 || i == 13) {
                     pstmt.setInt(i, Integer.parseInt(inputParse[i-1]));
                 } else {
                     pstmt.setString(i, inputParse[i-1]);
@@ -117,16 +118,17 @@ public class Admin {
 
         switch (input) {
             case (1):
-                String sql = "UPDATE Employee SET ? WHERE EmployeeID = ?;";
                 System.out.println("Enter the ID of the employee you wish to update");
-                String id = s.nextLine();
+                String id = s.next();
                 System.out.println("Enter the changes you wish to make fx (FirstName = 'Mette', LastName = 'Larsen'");
-                String change = s.nextLine();
+                String change = s.next();
+                String sql = "UPDATE Employee SET ";
+                sql += change;
+                sql +=" WHERE EmployeeID = ?;";
 
                 try {
                     PreparedStatement pstm = connection.prepareStatement(sql);
-                    pstm.setString(1, change);
-                    pstm.setString(2,id);
+                    pstm.setString(1,id);
                     pstm.executeQuery();
                 } catch (SQLException e){
                     System.out.println(e.getMessage());
@@ -135,7 +137,7 @@ public class Admin {
             case (2):
                 String sqlD = "DELETE FROM Employee WHERE EmployeeID = ?;";
                 System.out.println("Enter the ID of the employee you wish to delete");
-                String userID = s.nextLine();
+                String userID = s.next();
 
                 try {
                     PreparedStatement dstm = connection.prepareStatement(sqlD);
@@ -144,7 +146,7 @@ public class Admin {
                 } catch (SQLException e){
                     System.out.println(e.getMessage());
             }
-
+                break;
             case (3):
                 System.out.println("Returning to menu");
                 AdminMenu();
@@ -157,9 +159,10 @@ public class Admin {
 
             System.out.println("Please input the following, seperated by commas:");
             System.out.println("Starting date, end date");
-            System.out.println("Example: 20200103, for 2020-01-03");
-            String input = s.nextLine();
+            System.out.println("Example: 2020-01-03");
+            String input = s.next();
 
+            inputParse = new String[2];
             inputParse = input.split(",");
 
             for (int i = 1; i <= 2; i++) {
@@ -193,21 +196,22 @@ public class Admin {
     }
 
     public void AddProduct() {
-        String sql = "INSERT INTO Product(Details, HTMLDescription, Image, SupplierID," +
-                "PurchasePrice, SalesPrice, StockQuantity, TransportSC, TransportCC" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Product(ProductName, ProductType, Details, HTMLDescription, Image, SupplierID," +
+                "PurchasePrice, SalesPrice, StockQuantity, TransportSC, TransportCC)" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         System.out.println("Please input the following, seperated by commas:");
         System.out.println("Product details, HTMLDescription, Image, SupplierID, PurchasePrice, SalesPrice, StockQuantity, TransportSC and TransportCC");
-        String input = s.nextLine();
+        String input = s.next();
 
+        inputParse = new String[10];
         inputParse = input.split(",");
 
 
         try {
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            for (int i = 1; i <= 9; i++ ) {
-                if (i == 5 || i == 6) {
+            for (int i = 1; i <= 11; i++ ) {
+                if (i == 7 || i == 8 || i == 9) {
                     pstmt.setInt(i, Integer.parseInt(inputParse[i-1]));
                 } else {
                     pstmt.setString(i, inputParse[i-1]);
@@ -224,12 +228,13 @@ public class Admin {
 
     public void AddProductType() {
         String sql = "INSERT INTO ProductType(ProductType, Description, HTMLDescription, Image)" +
-                " VALUES (?, ?, ?, ?)";
+                " VALUES (?, ?, ?, ?);";
 
         System.out.println("Please input the following, seperated by commas:");
         System.out.println("Product type, Description, HTMLDescription and Image");
-        String input = s.nextLine();
+        String input = s.next();
 
+        inputParse = new String[3];
         inputParse = input.split(",");
 
 
@@ -267,11 +272,11 @@ public class Admin {
     }
 
     public void AddDBUser() {
-        String sql = "CREATE USER '?'@'%' IDENTIFIED BY '?'";
+        String sql = "CREATE USER '?'@'%' IDENTIFIED BY '?';";
         System.out.println("Enter Username");
-        String user = s.nextLine();
+        String user = s.next();
         System.out.println("Enter password");
-        String pass = s.nextLine();
+        String pass = s.next();
         try {
             PreparedStatement ptsm = connection.prepareStatement(sql);
             ptsm.setString(1, user);
