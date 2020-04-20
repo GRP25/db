@@ -299,6 +299,8 @@ BEGIN
     END //
 Delimiter ;
 
+Delimeter ;
+
 
 
 DELIMITER $$
