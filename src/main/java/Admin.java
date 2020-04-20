@@ -68,9 +68,6 @@ public class Admin {
                 getTimeSheet();
                 break;
             case (11):
-                SQLquery();
-                break;
-            case (12):
                 try {
                     connection.close();
                     System.exit(1);
@@ -285,15 +282,192 @@ public class Admin {
     }
     
     public void AdminDBUser() {
+        System.out.println("Which function do you wish to perfrom");
+        System.out.println("1. Alter existing user");
+        System.out.println("2. Grant/revoke privileges on existing user");
+        System.out.println("3. Delete a user");
+        int choice = s.nextInt();
+
+        switch (choice) {
+            case (1):
+                AlterUser();
+                break;
+            case (2):
+                GrantPrivilege();
+                break;
+            case (3):
+                DeleteUser();
+                break;
+        }
+
+    }
+
+    private void DeleteUser() {
+        String sql = "DROP USER ?;";
+        System.out.println("Witch user do you wish to delete?");
+        String in = s.nextLine();
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setString(1,in);
+            pstmt.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void GrantPrivilege() {
+        String sql = " ? ON ? TO '?'@'%';";
+        System.out.println("Specify the action you wish to perform");
+        System.out.println("I.e GRANT SELECT or REVOKE SELECT");
+        String GR = s.nextLine();
+        System.out.println("Specify the table / database / views you wish to grant these priviliges on:");
+        String db = s.nextLine();
+        System.out.println("Specify the user you wish to grant these privilges to");
+        String user = s.nextLine();
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setString(1,GR);
+            pstmt.setString(2, db);
+            pstmt.setString(3,user);
+            pstmt.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    private void AlterUser() {
+        String sql = "ALTER USER ? WITH ?;";
+        System.out.println("Enter the username of the user you wish to change");
+        String user = s.nextLine();
+        System.out.println("Enter SQL statment excluding WITH");
+        String statement = s.nextLine();
         
+        try {
+            PreparedStatement ptsmt = connection.prepareStatement(sql);
+            ptsmt.setString(1, user);
+            ptsmt.setString(2,statement);
+            ptsmt.executeQuery();
+        } catch (SQLException e) {
+            
+        }
     }
 
     public void getTimeSheet() {
+        System.out.println("Choose what you wish to do:");
+        System.out.println("1. See timesheet ");
+        System.out.println("2. Add entry to timesheet");
+        if (role == "CEO") {
+            System.out.println("3. View timesheet for employees ");
+            System.out.println("4. Approve timesheet for employees");
+        }
 
+        int in = s.nextInt();
+
+        switch (in) {
+            case (1):
+                viewTimeSheet();
+                break;
+            case (2):
+                insertTimeSheet();
+                break;
+            case (3):
+                if (role != "CEO") {
+                    System.out.println("Unsuffecient acces");
+                    getTimeSheet();
+                    break;
+                }
+                viewTimeStamps();
+                break;
+            case (4):
+                if (role != "CEO") {
+                    System.out.println("Unsuffecient acces");
+                    getTimeSheet();
+                    break;
+                }
+                approve();
+                break;
+        }
     }
 
-    public void SQLquery() {
+    private void approve() {
+        String sql = "UPDATE TimeStamps SET WorkStatus = ? WHERE EmployeeID = ?;";
+        System.out.println("Please the ID of the employee, which timesheet to approve or deny");
+        String id = s.nextLine();
+        System.out.println("Do you wish to approve or deny?");
+        String con = s.nextLine();
 
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, con);
+            stmt.setString(2, id);
+            stmt.executeQuery();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void viewTimeStamps() {
+        String sql = "SELECT * FROM TimeStamps";
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            ResultSetMetaData meta = rs.getMetaData();
+            int columnNr = meta.getColumnCount();
+            while (rs.next()) {
+                for (int i = 1; i < columnNr; i++) {
+                    System.out.print(rs.getString(i) + " ");
+                }
+                System.out.println();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void insertTimeSheet() {
+        String sql = "INSERT INTO timesheet(EmployeeID, WorkDate, WorkHours, Notice)" +
+                "VALUES (?, ?, ?, ?); ";
+
+            System.out.println("Please enter the following:");
+            System.out.println("Date worked (as YYYYMMDD), Hours worked, and notice");
+            String input = s.nextLine();
+
+            inputParse = input.split(",");
+
+            try {
+                PreparedStatement pstmt = connection.prepareStatement(sql);
+                pstmt.setString(1, EmployeeID);
+                pstmt.setDate(2, Date.valueOf(inputParse[0]));
+                pstmt.setInt(3, Integer.valueOf(inputParse[1]));
+                pstmt.setString(4, inputParse[2]);
+                pstmt.executeQuery();
+                System.out.println("Workhours Added");
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+    }
+
+
+    private void viewTimeSheet() {
+        String sql = "SELECT * FROM timesheet WHERE EmployeeID = " + EmployeeID;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData meta = rs.getMetaData();
+            int columnNr = meta.getColumnCount();
+            while (rs.next()) {
+                for (int i = 1; i < columnNr; i++) {
+                    System.out.print(rs.getString(i) + " ");
+                }
+                System.out.println();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override

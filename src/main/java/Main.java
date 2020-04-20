@@ -19,7 +19,7 @@ public class Main {
                 }
                 else if (returns[1].equals("Boss")) {
                     conn = SQL.DatabaseCtrl.connect("CEO","1234");
-                    new Admin(conn, userID, "Admin");
+                    new Admin(conn, userID, "CEO");
                 }
                 break;
             case "Sales":
