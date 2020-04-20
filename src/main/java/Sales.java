@@ -37,9 +37,10 @@ public class Sales{
             case 1:
                 System.out.println("Input First Name, Last Name, Address, Postal code, City, Phone, Mail and CreditLimit");
                 try {
-                    String FirstName = input.nextLine(), LastName = input.nextLine(), Address = input.nextLine(), PostalCode = input.nextLine(), City = input.nextLine(), Phone = input.nextLine();
+                    /*String FirstName = input.nextLine(), LastName = input.nextLine(), Address = input.nextLine(), PostalCode = input.nextLine(), City = input.nextLine(), Phone = input.nextLine();
                     String Mail = input.nextLine(), CreditLimit = input.nextLine();
-                    addCustomer(FirstName,LastName,Address,PostalCode,City,Phone,Mail,CreditLimit);
+                    addCustomer(FirstName,LastName,Address,PostalCode,City,Phone,Mail,CreditLimit);*/
+                    addCustomer("Thomas","Hohnen","Vejnummer","3080","Nørrebro","123456789","something@something.com","20");
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -148,11 +149,12 @@ public class Sales{
         input.close();
     }
 
-    public void addCustomer(String FistName, String LastName, String Address, String PostalCode, String City, String Phone, String Mail, String CreditLimit) throws SQLException {
+    public void addCustomer(String FirstName, String LastName, String Address, String PostalCode, String City, String Phone, String Mail, String CreditLimit) throws SQLException {
         String sql = "INSERT INTO Customer( FirstName, LastName, Address, PostalCode, City, Phone, Mail, CreditLimit)" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setString(1,FistName);
+
+        pstm.setString(1,FirstName);
         pstm.setString(2,LastName);
         pstm.setString(3,Address);
         pstm.setString(4,PostalCode);

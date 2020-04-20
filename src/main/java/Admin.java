@@ -10,6 +10,7 @@ public class Admin {
     String role;
     Scanner s = new Scanner(System.in);
     String[] inputParse;
+
     public Admin(Connection connection, String EmployeeID, String role) {
         if (connection == null) System.out.println("Incorrectly logged in");
         this.connection = connection;
@@ -79,11 +80,11 @@ public class Admin {
 
     public void AddEmployee() {
         String sql = "INSERT INTO Employee(FirstName, LastName, Address, PostalCode, City" +
-                "Phone, Salary, HourlyWage, Title, Department, AcountNo" +
+                "Phone, Salary, HourlyWage, Title, Department, StartDate, AcountNo" +
                 " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         System.out.println("Please input the following, seperated by commas:");
-        System.out.println("Firstname, Lastname, Address, Postalcode, City, Phonenumber, Salary, Job title, Department and account number");
+        System.out.println("Firstname, Lastname, Address, Postalcode, City, Phonenumber, Salary, Job title, Department, StartDate and account number");
         String input = s.nextLine();
 
         inputParse = input.split(",");
