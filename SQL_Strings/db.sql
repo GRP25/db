@@ -1,21 +1,22 @@
 /* CREATION OF USERS */
 
---Admin Department
+#--Admin Department
 CREATE USER 'CEO'@'%' IDENTIFIED BY '1234';
 CREATE USER 'Admin'@'%' IDENTIFIED BY '1234';
 
---Sales Department
+#--Sales Department
 CREATE USER 'CSO'@'%' IDENTIFIED BY '1234';
 CREATE USER 'Sales'@'%' IDENTIFIED BY '1234';
 
---Purchases Department
+#--Purchases Department
 CREATE USER 'CPO'@'%' IDENTIFIED BY '1234';
 CREATE USER 'Purchases'@'%' IDENTIFIED BY '1234';
 
---Login user 
+#--Login user 
 CREATE USER 'login'@'%' IDENTIFIED BY '1234';
 
 /* CREATION OF THE DATABASE */
+#DROP DATABASE dbTest1;
 CREATE DATABASE dbprojekt;
 USE dbprojekt;
 
@@ -80,6 +81,7 @@ CREATE TABLE Customer (
     City varchar(25) DEFAULT NULL,
     Phone varchar(8) NOT NULL,
     Mail varchar(50),
+    Country varchar(25) DEFAULT NULL,
     CreditLimit DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (CustomerID)
 );
@@ -176,6 +178,18 @@ CREATE TABLE payroll (
     PaymentDate date
 );
 
+CREATE TABLE TimeStamps (
+    EmployeeID char(6) NOT NULL,
+    WorkDate date NOT NULL,
+    WorkHours INT NOT NULL,
+    WorkStatus varchar(10) DEFAULT NULL,
+    Notice varchar(30) DEFAULT NULL,
+    BossID char(6) DEFAULT NULL,
+    FOREIGN KEY (EmployeeID) REFERENCES Employee (EmployeeID),
+    FOREIGN KEY (BossID) REFERENCES Employee (EmployeeID),
+    PRIMARY KEY (EmployeeID, WorkDate)
+);
+
 /* CREATION OF THE VIEWs */
 CREATE VIEW login AS
 SELECT EmployeeID, Title, Department FROM Employee;
@@ -205,14 +219,14 @@ SELECT EmployeeID, Department FROM Employee WHERE Title = 'Boss';
 CREATE VIEW timesheet_boss AS
 SELECT t.*, e.Department
 FROM TimeStamps AS t
-INNER JOIN Employee AS e ON e.EmployeeID = t.EmployeeID
+INNER JOIN Employee AS e ON e.EmployeeID = t.EmployeeID;
 
 create view timesheet_all as
 select E.FirstName, E.LastName, T.WorkDate, T.WorkHours, T.WorkStatus, C.FirstName AS StatusFirstName, C.Lastname AS StatusLastName, Notice
 FROM Employee AS E, Employee AS C, TimeStamps AS T
 WHERE E.EmployeeID = T.EmployeeID AND T.BossID = C.EmployeeID 
 AND curdate() BETWEEN E.StartDate AND E.EndDate AND curdate() BETWEEN C.StartDate AND C.EndDate
-order by WorkDate; 
+order by WorkDate;
 
 CREATE VIEW MarketingCatalog AS
 SELECT ProductID, ProductType, ProductName, Details, SalesPrice AS Price
@@ -299,10 +313,6 @@ BEGIN
     END //
 Delimiter ;
 
-Delimeter ;
-
-
-
 DELIMITER $$
 CREATE PROCEDURE SendOrder( IN ID CHAR(7))
 BEGIN 
@@ -324,8 +334,8 @@ END$$
 /* CREATING PRIVILEGES FOR USERS */
 
 GRANT ALL       ON *.*                  TO 'CEO'@'%';
-GRANT EXECUTE   ON dbprojekt.*          TO 'CSO'@'%';
-GRANT EXECUTE   ON dbprojekt.*          TO 'Sales'@'%';
+GRANT EXECUTE   ON *.*          		TO 'CSO'@'%';
+GRANT EXECUTE   ON *.*          		TO 'Sales'@'%';
 
 GRANT ALL       ON Department           TO 'CEO'@'%';
 GRANT ALL       ON Employee             TO 'CEO'@'%';
@@ -435,8 +445,8 @@ VALUES ('Gebr. Märklin & Cie. GmbH', 'M00002', 'Stuttgarter strasse 55-57', '30
 INSERT INTO ProductType (ProductType, Description, HTMLDescription, Image) VALUES ('dieseltrain', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porttitor, purus dignissim tincidunt ultrices, quam metus placerat nisi, ac cursus libero quam vel felis. Duis id metus tincidunt, convallis mauris at, lacinia enim. Praesent bibendum magna magna, ut tempor nibh.',null,null);
 INSERT INTO ProductType (ProductType, Description, HTMLDescription, Image) VALUES ('steamtrain', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porttitor, purus dignissim tincidunt ultrices, quam metus placerat nisi, ac cursus libero quam vel felis. Duis id metus tincidunt, convallis mauris at, lacinia enim. Praesent bibendum magna magna, ut tempor nibh.',null,null);
 
-INSERT INTO Product(ProductName, ProductType,Details, HTMLDescription, Image, SupplierID, purchasePrice, SalesPrice,StockQuantity, TransportSC, TransportCC) VALUES ('DSB MY100', 'dieseltrain','Flot Märklin DSB lokomotiv fra 1998', null,null,'L40001',1250,2499,10,null,null);
-INSERT INTO Product(ProductName, ProductType,Details, HTMLDescription, Image, SupplierID, purchasePrice, SalesPrice,StockQuantity, TransportSC, TransportCC) VALUES ('SBB Class C 5/6 "Elefant"', 'steamtrain','This is a placeholder describtion', null,null,'L40001',1450,3599,12,null,null);
+INSERT INTO Product(ProductName, ProductType,Details, HTMLDescription, Image, SupplierID, purchasePrice, SalesPrice,StockQuantity, TransportSC, TransportCC) VALUES ('DSB MY100', 'dieseltrain','Flot Märklin DSB lokomotiv fra 1998', null,null,'L00001',1250,2499,10,null,null);
+INSERT INTO Product(ProductName, ProductType,Details, HTMLDescription, Image, SupplierID, purchasePrice, SalesPrice,StockQuantity, TransportSC, TransportCC) VALUES ('SBB Class C 5/6 "Elefant"', 'steamtrain','This is a placeholder describtion', null,null,'L00001',1450,3599,12,null,null);
 
 INSERT INTO SalesOrder(CustomerID, OrderDate, ShippingDate, InvoiceDate, PaymentDate)
 VALUES ('K00001',20200420,20200420,20200420,20200420);
