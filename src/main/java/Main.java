@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Input employee ID to login:");
-        String userID = "M00012"; //Dette er Malte = M00005
+        String userID = "M00005"; //Dette er Malte
         Login l = new Login();
         String[] returns = l.login(userID);
         System.out.println(returns);
